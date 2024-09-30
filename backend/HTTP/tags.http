@@ -1,0 +1,13 @@
+GET http://localhost:3000/tags?name=f
+
+###
+POST http://localhost:3000/tags/
+Content-Type: application/json
+
+{
+    "name": "fashion"
+}
+
+###
+
+DELETE http://localhost:3000/tags/2
