@@ -1,5 +1,6 @@
 import express from "express";
 import "reflect-metadata";
+import cors from "cors";
 import { dataSourceGoodCorner } from "./config/db";
 import { Ad } from "./entities/ad";
 import { Category } from "./entities/category";
@@ -9,8 +10,8 @@ import { Like } from "typeorm";
 
 const app = express();
 const port = 3000;
-
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 //APP.GET
 app.get("/", (_req, res) => {
@@ -33,11 +34,20 @@ app.get("/ads", async (req, res) => {
       },
       relations: { tags: true },
     });
-  }
-  else {
-    ads = await Ad.find({ relations: { category: true, tags:true } });
+  } else {
+    ads = await Ad.find({ relations: { category: true, tags: true } });
   }
   res.send(ads);
+});
+
+app.get("/ads/:id", async (req, res) => {
+  try {
+    const result = await Ad.findOneByOrFail({ id: parseInt(req.params.id) });
+    res.send(result);
+  } catch (err) {
+    console.log("error", err);
+    res.status(400).send(err);
+  }
 });
 
 app.get("/categories", async (req, res) => {
@@ -79,7 +89,7 @@ app.post("/ads", async (req, res) => {
   adToSave.picture = req.body.picture;
   adToSave.price = req.body.price;
   adToSave.title = req.body.title;
-  adToSave.category = req.body.category ? req.body.category : 1;
+  adToSave.category = req.body.category ? req.body.category : 4;
   adToSave.tags = req.body.tags;
 
   const errors = await validate(adToSave);
@@ -110,7 +120,7 @@ app.post("/categories", async (req, res) => {
 
 app.post("/tags", async (req, res) => {
   const tagsToSave = new Tag();
-    tagsToSave.name = req.body.name;
+  tagsToSave.name = req.body.name;
 
   const errors = await validate(tagsToSave);
   if (errors.length > 0) {
@@ -125,14 +135,14 @@ app.post("/tags", async (req, res) => {
 
 //APP.DELETE
 app.delete("/ads/:id", async (req, res) => {
-const result = await Ad.delete(req.params.id);
-    res.send(result);
+  const result = await Ad.delete(req.params.id);
+  res.send(result);
 });
 
 app.delete("/tags/:id", async (req, res) => {
   const result = await Tag.delete(req.params.id);
-      res.send(result);
-  });
+  res.send(result);
+});
 
 //APP.PUT
 app.put("/ads/:id", async (req, res) => {
@@ -148,17 +158,7 @@ app.put("/ads/:id", async (req, res) => {
   }
 });
 
-app.put("/categories/:id", async (_req, _res) =>{
- 
-})
-
-app.put("/tags/:id", async (_req, _res) => {
-
-})
-  
-  
 app.listen(port, async () => {
   await dataSourceGoodCorner.initialize();
   console.log(`Example app listening on port ${port}`);
 });
-  

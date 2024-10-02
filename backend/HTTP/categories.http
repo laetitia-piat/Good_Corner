@@ -1,4 +1,4 @@
-GET http://localhost:3000/categories?name=V
+GET http://localhost:3000/categories?name=vêtement
 
 ### 
 POST http://localhost:3000/categories/

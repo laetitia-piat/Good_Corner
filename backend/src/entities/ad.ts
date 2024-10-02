@@ -1,8 +1,15 @@
 import { MinLength } from "class-validator";
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { Category } from "./category";
 import { Tag } from "./tag";
-
 
 @Entity()
 export class Ad extends BaseEntity {
@@ -19,7 +26,7 @@ export class Ad extends BaseEntity {
   @Column()
   owner: string;
 
-  @Column() 
+  @Column()
   price: number;
 
   @Column()
@@ -29,12 +36,15 @@ export class Ad extends BaseEntity {
   location: string;
 
   @Column()
+  email: string;
+
+  @Column()
   createdAt: Date;
 
-@ManyToOne(() => Category, category => category.ads)
-category : Category;
+  @ManyToOne(() => Category, (category) => category.ads)
+  category: Category;
 
-@ManyToMany(() => Tag)
-@JoinTable()
-tags : Tag[];
+  @ManyToMany(() => Tag)
+  @JoinTable()
+  tags: Tag[];
 }

@@ -1,16 +1,21 @@
+//import AdCard from "../components/AdCard";
+import { useParams } from "react-router-dom";
+import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import AdCard, { AdCardProps } from "./AdCard";
+import AdCard, { AdCardProps } from "../components/AdCard";
 import axios from "axios";
 
-const RecentAds = () => {
-  const [total, setTotal] = useState(0);
+const AdbyCategory = () => {
+  const { name } = useParams();
+  console.log(name);
   const [ads, setAds] = useState<AdCardProps[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await axios.get<AdCardProps[]>(
-          "http://localhost:3000/ads"
+          "http://localhost:3000/ads?category="
         );
+        console.log("resultat", result);
         setAds(result.data);
       } catch (err) {
         console.log("error", err);
@@ -18,32 +23,20 @@ const RecentAds = () => {
     };
     fetchData();
   }, []);
-
   return (
     <>
-      <h2>Annonces récentes</h2>
-      <p>Prix total : {total}€ </p>
+      <Header />
       <section className="recent-ads">
         {ads.map((ad) => (
           <div key={ad.id}>
             <AdCard
               id={ad.id}
               picture={ad.picture}
-              link={`ad/${ad.id}`}
+              link={ad.link}
               price={ad.price}
               title={ad.title}
               category={ad.category}
             />
-            <button
-              className="button button-tot"
-              onClick={() => {
-                {
-                  setTotal(total + ad.price);
-                }
-              }}
-            >
-              Ajouter au total
-            </button>
           </div>
         ))}
       </section>
@@ -51,4 +44,4 @@ const RecentAds = () => {
   );
 };
 
-export default RecentAds;
+export default AdbyCategory;
