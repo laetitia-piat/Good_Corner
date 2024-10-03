@@ -93,7 +93,7 @@ const UpdateAdForm = () => {
           type="date"
           className="text-field"
           name="createdAt"
-          defaultValue={adDetails.createdAt.slice(0, 10)}
+          //defaultValue={adDetails.createdAt.slice(0, 10)}
         />
       </label>
       <br />
