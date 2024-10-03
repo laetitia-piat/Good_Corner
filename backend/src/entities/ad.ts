@@ -39,7 +39,7 @@ export class Ad extends BaseEntity {
   location: string;
 
   @Column()
-  createdAt: Date;
+  createdAt: string;
 
   @ManyToOne(() => Category, (category) => category.ads)
   category: Category;
