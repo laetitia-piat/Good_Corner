@@ -32,7 +32,7 @@ const AdbyCategory = () => {
             <AdCard
               id={ad.id}
               picture={ad.picture}
-              link={ad.link}
+              link={`../../ad/${ad.id}`}
               price={ad.price}
               title={ad.title}
               category={{
