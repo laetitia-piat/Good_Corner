@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AdCardProps } from "../components/AdCardDetails";
 import SelectCategory from "../components/selectCategory";
+import { toast } from "react-toastify";
 
 const UpdateAdForm = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [adDetails, setAdDetails] = useState({} as AdCardProps);
   useEffect(() => {
@@ -30,9 +32,14 @@ const UpdateAdForm = () => {
             `http://localhost:3000/ads/${id}`,
             formJson
           );
-          console.log("Annonce mise à jour avec succès:", response.data);
+          console.log("Annonce mise à jour avec succès!", response.data);
+          toast.success("Annonce mise à jour avec succès!", {
+            position: "top-center",
+          });
+          navigate("/");
         } catch (error) {
           console.error("Erreur lors de la mise à jour de l'annonce:", error);
+          toast.error("Erreur lors de la mise à jour de l'annonce!");
         }
       }}
     >
@@ -113,9 +120,7 @@ const UpdateAdForm = () => {
         <SelectCategory />
       </label>
       <br />
-      {/* <form method="put" action="/"> */}
       <button className="button">Submit</button>
-      {/* </form> */}
     </form>
   );
 };

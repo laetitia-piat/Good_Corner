@@ -1,17 +1,28 @@
 import axios from "axios";
 import SelectCategory from "../components/selectCategory";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const NewAdForm = () => {
+  const navigate = useNavigate();
   return (
     <form
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
+        try {
+          // Read the form data
+          const form = e.target;
+          const formData = new FormData(form as HTMLFormElement);
 
-        const form = e.target;
-        const formData = new FormData(form as HTMLFormElement);
-
-        const formJson = Object.fromEntries(formData.entries());
-        axios.post("http://localhost:3000/ads", formJson);
+          // Or you can work with it as a plain object:
+          const formJson = Object.fromEntries(formData.entries());
+          await axios.post("http://localhost:3000/ads", formJson);
+          toast.success("Ad has been added", { position: "top-center" });
+          navigate("/");
+        } catch (err) {
+          console.log(err);
+          toast.error("An error occured");
+        }
       }}
     >
       <label>

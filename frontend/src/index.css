@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+a {
+  text-decoration: none;
+}
 
 body {
   margin: 0;
@@ -121,6 +124,12 @@ h1 {
   gap: 16px;
 }
 
+.button-ad-card {
+  display: flex;
+  justify-content: space-around;
+  padding: 5px 0 10px 0;
+}
+
 .ad-card-container {
   border-radius: 8px;
   border: 1px solid lightgray;
@@ -149,7 +158,12 @@ h1 {
 }
 
 .ad-card-title {
+  font-size: 0.9em;
   font-weight: bold;
+}
+
+.ad-card-price {
+  font-size: 0.9em;
 }
 
 .ad-card-category {

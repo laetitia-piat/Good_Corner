@@ -1,21 +1,30 @@
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ButtonDelete = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
   return (
-    <Link to="/">
-      <button
-        className="button button-tot"
-        onClick={() => {
+    <button
+      className="button button-primary"
+      onClick={async () => {
+        try {
           {
-            axios.delete(`http://localhost:3000/ads/${id}`);
+            await axios.delete(`http://localhost:3000/ads/${id}`);
           }
-        }}
-      >
-        Supprimer
-      </button>
-    </Link>
+          toast.success("Annonce supprimée avec succès!", {
+            position: "top-center",
+          });
+          navigate("/");
+        } catch (err) {
+          console.log(err);
+          toast.error("An error occured");
+        }
+      }}
+    >
+      Supprimer
+    </button>
   );
 };
 
