@@ -1,1 +1,2 @@
-DROP TABLE tag_ads_ad
+ALTER TABLE ad
+ADD email VARCHAR

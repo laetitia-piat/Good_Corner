@@ -1,6 +1,9 @@
 import CategoryList from "./CategoryList";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   return (
     <header className="header">
       <div className="main-menu">
@@ -10,8 +13,25 @@ const Header = () => {
             <span className="desktop-long-label">THE GOOD CORNER</span>
           </a>
         </h1>
-        <form className="text-field-with-button">
-          <input className="text-field main-search-field" type="search" />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            // Read the form data
+            const form = e.target;
+            const formData = new FormData(form as HTMLFormElement);
+
+            // Or you can work with it as a plain object:
+            const formJson = Object.fromEntries(formData.entries());
+            console.log(formJson);
+            navigate(`/ad/search/${formJson.keyword}`);
+          }}
+          className="text-field-with-button"
+        >
+          <input
+            className="text-field main-search-field"
+            type="search"
+            name="keyword"
+          />
           <button className="button button-primary">
             <svg
               aria-hidden="true"
@@ -28,10 +48,10 @@ const Header = () => {
             </svg>
           </button>
         </form>
-        <a href="/ad/new" className="button link-button">
+        <Link to="/ad/new" className="button link-button">
           <span className="mobile-short-label">Publier</span>
           <span className="desktop-long-label">Publier une annonce</span>
-        </a>
+        </Link>
       </div>
       <CategoryList />
     </header>

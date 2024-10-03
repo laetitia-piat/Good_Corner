@@ -136,8 +136,6 @@ h1 {
 .ad-card-image {
   width: 100%;
   border-radius: 8px;
-}
-img {
   max-height: 150px;
   object-fit: cover;
   object-position: center;
@@ -168,6 +166,9 @@ img {
 
 .ad-details-image {
   width: 100%;
+  max-height: 350px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .ad-details {

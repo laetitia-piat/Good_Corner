@@ -8,20 +8,20 @@ GET http://localhost:3000/ads?tags=fiat
 
 ###
 
-POST http://localhost:3000/ads/
+POST http://localhost:3000/ads
 Content-Type: application/json
 
 {
       "title": "Fiat Panda",
       "description": "My Fiat is beautiful",
-      "owner": "fiat.seller@gmail.com",
+      "owner": "fiat",
       "price": 5000,
       "picture":
         "https://images.lecho.be/view?iid=dc:113129565&context=ONLINE&ratio=16/9&width=640&u=1508242455000",
       "location": "Paris",
+      "email":"fiat.seller@gmail.com",
       "createdAt": "2023-09-05T10:13:14.755Z",
-      "category" : 2,
-      "tags" : [{"id":2}, {"id":1}, {"id":3}]
+      "category" : 2
 }
 
 ###
@@ -32,7 +32,5 @@ PUT http://localhost:3000/ads/4
 Content-Type: application/json
 
 {
-
-  "category" : 
-
+  "title": "Green bike to sell"
 }

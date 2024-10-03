@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export type CategoryProps = {
   id?: number;
   name: string;
@@ -6,9 +8,9 @@ export type CategoryProps = {
 
 const AllCategory = ({ name, link }: CategoryProps) => (
   <>
-    <a href={link} className="category-navigation-link">
+    <Link to={link} className="category-navigation-link">
       {name}
-    </a>
+    </Link>
   </>
 );
 

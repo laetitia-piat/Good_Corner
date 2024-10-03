@@ -13,7 +13,7 @@ const AdbyCategory = () => {
     const fetchData = async () => {
       try {
         const result = await axios.get<AdCardProps[]>(
-          "http://localhost:3000/ads?category="
+          `http://localhost:3000/ads?category=${name}`
         );
         console.log("resultat", result);
         setAds(result.data);
@@ -22,7 +22,7 @@ const AdbyCategory = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [name]);
   return (
     <>
       <Header />
@@ -35,7 +35,10 @@ const AdbyCategory = () => {
               link={ad.link}
               price={ad.price}
               title={ad.title}
-              category={ad.category}
+              category={{
+                id: ad.category.id,
+                name: `${ad.category.name}`,
+              }}
             />
           </div>
         ))}

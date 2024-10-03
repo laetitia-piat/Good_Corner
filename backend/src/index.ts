@@ -34,6 +34,13 @@ app.get("/ads", async (req, res) => {
       },
       relations: { tags: true },
     });
+  } else if (req.query.title) {
+    ads = await Ad.find({
+      where: {
+        title: Like(`%${req.query.title as string}%`),
+      },
+      relations: { category: true },
+    });
   } else {
     ads = await Ad.find({ relations: { category: true, tags: true } });
   }
@@ -64,6 +71,16 @@ app.get("/categories", async (req, res) => {
   res.send(categories);
 });
 
+// app.get("/categories/:name", async (req, res) => {
+//   try {
+//     const result = await Category.findOneByOrFail({ name: req.params.name });
+//     res.send(result);
+//   } catch (err) {
+//     console.log("error", err);
+//     res.status(400).send(err);
+//   }
+// });
+
 app.get("/tags", async (req, res) => {
   let tags: Tag[];
   if (req.query.name) {
@@ -89,6 +106,7 @@ app.post("/ads", async (req, res) => {
   adToSave.picture = req.body.picture;
   adToSave.price = req.body.price;
   adToSave.title = req.body.title;
+  adToSave.email = req.body.email;
   adToSave.category = req.body.category ? req.body.category : 4;
   adToSave.tags = req.body.tags;
 
@@ -141,6 +159,11 @@ app.delete("/ads/:id", async (req, res) => {
 
 app.delete("/tags/:id", async (req, res) => {
   const result = await Tag.delete(req.params.id);
+  res.send(result);
+});
+
+app.delete("/categories/:id", async (req, res) => {
+  const result = await Category.delete(req.params.id);
   res.send(result);
 });
 

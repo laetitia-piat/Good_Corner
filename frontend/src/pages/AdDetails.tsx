@@ -4,6 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import AdCardDetails from "../components/AdCardDetails";
 import { AdCardProps } from "../components/AdCardDetails";
+import ButtonDelete from "../components/ButtonDelete";
 
 const AdDetails = () => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const AdDetails = () => {
   useEffect(() => {
     const fetchData = async () => {
       const result = await axios.get(`http://localhost:3000/ads/${id}`);
+      console.log(result);
       setAdDetails(result.data);
     };
     fetchData();
@@ -24,11 +26,15 @@ const AdDetails = () => {
         title={adDetails.title}
         picture={adDetails.picture}
         description={adDetails.description}
+        owner={adDetails.owner}
+        email={adDetails.email}
         price={adDetails.price}
         link={adDetails.link}
         createdAt={adDetails.createdAt}
-        id={0}
+        location={adDetails.location}
+        id={adDetails.id}
       />
+      <ButtonDelete />
     </>
   );
 };

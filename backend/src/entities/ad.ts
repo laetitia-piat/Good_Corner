@@ -27,6 +27,9 @@ export class Ad extends BaseEntity {
   owner: string;
 
   @Column()
+  email: string;
+
+  @Column()
   price: number;
 
   @Column()
@@ -34,9 +37,6 @@ export class Ad extends BaseEntity {
 
   @Column()
   location: string;
-
-  @Column()
-  email: string;
 
   @Column()
   createdAt: Date;

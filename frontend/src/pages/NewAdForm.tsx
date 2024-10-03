@@ -1,22 +1,7 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-
-type category = {
-  id: number;
-  name: string;
-};
+import SelectCategory from "../components/selectCategory";
 
 const NewAdForm = () => {
-  const [categories, setCategories] = useState<category[]>([]);
-  useEffect(() => {
-    const fetchCategory = async () => {
-      const resultCat = await axios.get<category[]>(
-        "http://localhost:3000/categories/"
-      );
-      setCategories(resultCat.data);
-    };
-    fetchCategory();
-  }, []);
   return (
     <form
       onSubmit={(e) => {
@@ -26,19 +11,19 @@ const NewAdForm = () => {
         const formData = new FormData(form as HTMLFormElement);
 
         const formJson = Object.fromEntries(formData.entries());
-        axios.post("http://localhost:3000/ads/", formJson);
+        axios.post("http://localhost:3000/ads", formJson);
       }}
     >
       <label>
         Titre de l'annonce:
         <br />
-        <input className="text-field" name="title" />
+        <input className="text-field" type="text" name="title" />
       </label>
       <br />
       <label>
         Description :
         <br />
-        <input className="text-field" name="description" />
+        <input className="text-field" type="text" name="description" />
       </label>
       <br />
       <label>
@@ -48,21 +33,27 @@ const NewAdForm = () => {
       </label>
       <br />
       <label>
-        Mail :
+        Nom :
         <br />
-        <input className="text-field" name="owner" />
+        <input className="text-field" type="text" name="owner" />
       </label>
       <br />
       <label>
         Ville :
         <br />
-        <input className="text-field" name="location" />
+        <input className="text-field" type="text" name="location" />
       </label>
       <br />
       <label>
         Date :
         <br />
         <input type="date" className="text-field" name="createdAt" />
+      </label>
+      <br />
+      <label>
+        Email :
+        <br />
+        <input className="text-field" type="text" name="email" />
       </label>
       <br />
       <label>
@@ -74,15 +65,11 @@ const NewAdForm = () => {
       <label>
         Catégorie :
         <br />
-        <select className="text-field" name="category">
-          {categories.map((el) => (
-            <option value={el.id} key={el.id}>
-              {el.name}
-            </option>
-          ))}
-        </select>
+        <SelectCategory />
       </label>
+      {/* <form method="get" action="/"> */}
       <button className="button">Submit</button>
+      {/* </form> */}
     </form>
   );
 };
