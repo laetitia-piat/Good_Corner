@@ -104,6 +104,21 @@ h1 {
   font-family: inherit;
 }
 
+.form-new-ad {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+.form-new-ad button {
+  width: 50%;
+  margin: auto;
+}
+.form-new-ad .text-field {
+  width: 80%;
+  margin: auto;
+}
+
 .link-button {
   text-decoration: none;
 }

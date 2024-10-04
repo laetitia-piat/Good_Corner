@@ -1,88 +1,124 @@
 import axios from "axios";
-import SelectCategory from "../components/selectCategory";
+import { ErrorMessage } from "@hookform/error-message";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Fragment } from "react/jsx-runtime";
+import SelectCategory from "../components/SelectCategory";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
-const NewAdForm = () => {
-  const navigate = useNavigate();
-  return (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault();
-        try {
-          // Read the form data
-          const form = e.target;
-          const formData = new FormData(form as HTMLFormElement);
+type Inputs = {
+  title: string;
+  owner: string;
+  price: number;
+  description: string;
+  email: string;
+  picture: string;
+  location: string;
+  category: string;
+  createdAt: string;
+  tag: number;
+};
 
-          // Or you can work with it as a plain object:
-          const formJson = Object.fromEntries(formData.entries());
-          await axios.post("http://localhost:3000/ads", formJson);
-          toast.success("Ad has been added", { position: "top-center" });
-          navigate("/");
-        } catch (err) {
-          console.log(err);
-          toast.error("An error occured");
-        }
-      }}
-    >
-      <label>
-        Titre de l'annonce:
-        <br />
-        <input className="text-field" type="text" name="title" />
-      </label>
-      <br />
-      <label>
-        Description :
-        <br />
-        <input className="text-field" type="text" name="description" />
-      </label>
-      <br />
-      <label>
-        Prix :
-        <br />
-        <input className="text-field" name="price" />
-      </label>
-      <br />
-      <label>
-        Nom :
-        <br />
-        <input className="text-field" type="text" name="owner" />
-      </label>
-      <br />
-      <label>
-        Ville :
-        <br />
-        <input className="text-field" type="text" name="location" />
-      </label>
-      <br />
-      <label>
-        Date :
-        <br />
-        <input type="date" className="text-field" name="createdAt" />
-      </label>
-      <br />
-      <label>
-        Email :
-        <br />
-        <input className="text-field" type="text" name="email" />
-      </label>
-      <br />
-      <label>
-        Image :
-        <br />
-        <input className="text-field" name="picture" />
-      </label>
-      <br />
-      <label>
-        Catégorie :
-        <br />
+const NewFormTest = () => {
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>({ criteriaMode: "all" });
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    try {
+      await axios.post("http://localhost:3000/ads", data);
+      toast.success("Ad has been added", { position: "top-center" });
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      toast.error("An error occured");
+    }
+  };
+  return (
+    <>
+      <form className="form-new-ad" onSubmit={handleSubmit(onSubmit)}>
+        <label>Titre</label>
+        <input
+          className="text-field"
+          type="text"
+          placeholder="Titre"
+          {...register("title", { required: true, min: 1, maxLength: 50 })}
+        />
+
+        <label>Description</label>
+        <input
+          className="text-field"
+          type="text"
+          placeholder="Description"
+          {...register("description", { min: 1, maxLength: 150 })}
+        />
+        <label>Nom</label>
+        <input
+          className="text-field"
+          type="text"
+          placeholder="Nom"
+          {...register("owner", { required: true, maxLength: 80 })}
+        />
+        <label>Email</label>
+        <input
+          className="text-field"
+          type="text"
+          placeholder="Email"
+          {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+        />
+
+        <label>Date</label>
+        <input
+          className="text-field"
+          type="date"
+          placeholder="Date"
+          {...register("createdAt", {})}
+        />
+        <label>Prix</label>
+        <input
+          className="text-field"
+          type="number"
+          placeholder="Prix"
+          {...register("price", {})}
+        />
+        <label>Ville</label>
+        <input
+          className="text-field"
+          type="text"
+          placeholder="Ville"
+          {...register("location", {})}
+        />
+        <label>Image</label>
+        <input
+          className="text-field"
+          type="url"
+          placeholder="Image"
+          {...register("picture", {})}
+        />
+        <label>Categorie</label>
         <SelectCategory />
-      </label>
-      {/* <form method="get" action="/"> */}
-      <button className="button">Submit</button>
-      {/* </form> */}
-    </form>
+        <ErrorMessage
+          errors={errors}
+          name="title"
+          render={({ messages }) =>
+            messages &&
+            Object.entries(messages).map(([type, message]) => {
+              console.log(message);
+              return (
+                <Fragment key={type}>
+                  <br />
+                  <span className="error-message">{message}</span>
+                </Fragment>
+              );
+            })
+          }
+        />
+        <input type="submit" />
+      </form>
+    </>
   );
 };
 
-export default NewAdForm;
+export default NewFormTest;

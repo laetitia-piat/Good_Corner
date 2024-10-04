@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AdCardProps } from "../components/AdCardDetails";
-import SelectCategory from "../components/selectCategory";
+import SelectCategory from "../components/SelectCategory";
 import { toast } from "react-toastify";
 
 const UpdateAdForm = () => {
