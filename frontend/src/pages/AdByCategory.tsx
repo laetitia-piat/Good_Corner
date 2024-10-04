@@ -39,6 +39,10 @@ const AdbyCategory = () => {
                 id: ad.category.id,
                 name: `${ad.category.name}`,
               }}
+              // tags={{
+              //   id: ad.tags.id,
+              //   name: `${ad.tags.name}`,
+              // }}
             />
           </div>
         ))}

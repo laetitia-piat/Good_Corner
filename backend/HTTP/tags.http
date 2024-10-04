@@ -1,5 +1,4 @@
-GET http://localhost:3000/tags?name=f
-
+GET http://localhost:3000/tags
 ###
 POST http://localhost:3000/tags/
 Content-Type: application/json

@@ -11,6 +11,7 @@ import AdSearchPage from "./pages/AdSearchPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TestNewAdForm from "./pages/NewAdForm";
+import AdTagsFetch from "./components/AdTagsFetch";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="ad/:id/update" element={<UpdateAdForm />} />
           <Route path="category/new" element={<NewCategoryFormPage />} />
           <Route path="category/:name" element={<AdbyCategory />} />
+          <Route path="test" element={<AdTagsFetch />} />
         </Route>
       </Routes>
       <ToastContainer />

@@ -2,11 +2,11 @@ import axios from "axios";
 import { ErrorMessage } from "@hookform/error-message";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Fragment } from "react/jsx-runtime";
-import SelectCategory from "../components/SelectCategory";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
-type Inputs = {
+export type Inputs = {
   title: string;
   owner: string;
   price: number;
@@ -16,19 +16,47 @@ type Inputs = {
   location: string;
   category: string;
   createdAt: string;
-  tag: number;
+  tags: number[];
+};
+export type category = {
+  id: number;
+  name: string;
+};
+export type Tags = {
+  id: number;
+  name: string;
 };
 
-const NewFormTest = () => {
+const NewAdForm = () => {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState<category[]>([]);
+  const [tags, setTags] = useState([] as Tags[]);
+  useEffect(() => {
+    const fetchTags = async () => {
+      const result = await axios.get<Tags[]>("http://localhost:3000/tags/");
+      setTags(result.data);
+    };
+    const fetchCategory = async () => {
+      const resultCat = await axios.get<category[]>(
+        "http://localhost:3000/categories/"
+      );
+      setCategories(resultCat.data);
+    };
+    fetchTags();
+    fetchCategory();
+  }, []);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ criteriaMode: "all" });
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const dataForBackend = {
+      ...data,
+      tags: data.tags.map((el) => ({ id: el })),
+    };
     try {
-      await axios.post("http://localhost:3000/ads", data);
+      await axios.post("http://localhost:3000/ads", dataForBackend);
       toast.success("Ad has been added", { position: "top-center" });
       navigate("/");
     } catch (err) {
@@ -98,7 +126,13 @@ const NewFormTest = () => {
           {...register("picture", {})}
         />
         <label>Categorie</label>
-        <SelectCategory />
+        <select className="text-field" {...register("category")}>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
         <ErrorMessage
           errors={errors}
           name="title"
@@ -115,10 +149,21 @@ const NewFormTest = () => {
             })
           }
         />
-        <input type="submit" />
+        <label>Tags :</label>
+        <br />
+        {tags.map((el) => (
+          <Fragment key={el.id}>
+            <label>
+              <input type="checkbox" value={el.id} {...register("tags")} />
+              {el.name}
+            </label>
+            <br />
+          </Fragment>
+        ))}
+        <input type="submit" className="button button-primary" />
       </form>
     </>
   );
 };
 
-export default NewFormTest;
+export default NewAdForm;

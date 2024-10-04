@@ -32,6 +32,7 @@ const AdSearchPage = () => {
                 id: ad.category.id,
                 name: `${ad.category.name}`,
               }}
+              tags={[]}
             />
           </div>
         ))}

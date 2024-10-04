@@ -110,13 +110,18 @@ h1 {
   flex-direction: column;
   margin: auto;
 }
-.form-new-ad button {
+.form-new-ad .button-primary {
   width: 50%;
   margin: auto;
+  margin-top: 15px;
 }
 .form-new-ad .text-field {
   width: 80%;
   margin: auto;
+}
+
+.form-new-ad-container {
+  display: flex;
 }
 
 .link-button {
