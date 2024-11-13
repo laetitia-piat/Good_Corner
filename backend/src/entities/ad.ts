@@ -6,41 +6,57 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
+  //OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Category } from "./category";
 import { Tag } from "./tag";
+//import { Picture } from "./picture";
+import { Field, ObjectType } from "type-graphql";
 
+@ObjectType()
 @Entity()
 export class Ad extends BaseEntity {
+  @Field()
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Field()
   @Column()
   title: string;
 
+  @Field()
   @Column()
   @MinLength(10)
   description: string;
 
+  @Field()
   @Column()
   owner: string;
 
+  @Field()
   @Column()
   email: string;
 
+  @Field()
   @Column()
   price: number;
 
-  @Column()
-  picture: string;
+  // @OneToMany(() => Picture, (picture) => picture.ad, {
+  //   cascade: true,
+  //   eager: true,
+  // })
+  // pictures: Picture[];
 
+  @Field()
   @Column()
   location: string;
 
+  @Field()
   @Column()
   createdAt: string;
 
+  @Field(() => Category)
   @ManyToOne(() => Category, (category) => category.ads)
   category: Category;
 

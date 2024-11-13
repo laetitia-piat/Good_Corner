@@ -1,12 +1,16 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { AdCardProps } from "../components/AdCardDetails";
-import SelectCategory from "../components/SelectCategory";
 import { toast } from "react-toastify";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
+import { category, Inputs, Tags } from "./NewAdForm";
 
 const UpdateAdForm = () => {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState<category[]>([]);
+  const [tags, setTags] = useState([] as Tags[]);
   const { id } = useParams();
   const [adDetails, setAdDetails] = useState({} as AdCardProps);
   useEffect(() => {
@@ -15,113 +19,146 @@ const UpdateAdForm = () => {
       console.log(result);
       setAdDetails(result.data);
     };
+    const fetchTags = async () => {
+      const result = await axios.get<Tags[]>("http://localhost:3000/tags/");
+      setTags(result.data);
+    };
+    const fetchCategory = async () => {
+      const resultCat = await axios.get<category[]>(
+        "http://localhost:3000/categories/"
+      );
+      setCategories(resultCat.data);
+    };
     fetchData();
+    fetchCategory();
+    fetchTags();
   }, [id]);
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>({ criteriaMode: "all" });
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const dataForBackend = {
+      ...data,
+      tags: data.tags.map((tag) => ({ id: tag })),
+    };
+    try {
+      await axios.put(`http://localhost:3000/ads/${id}`, dataForBackend);
+      toast.success("Annonce modifiée!", { position: "top-center" });
+      navigate("/");
+    } catch (err) {
+      console.log(err);
+      toast.error("An error occured");
+    }
+  };
   return (
-    <form
-      onSubmit={async (e) => {
-        e.preventDefault();
-        const form = e.target;
-        const formData = new FormData(form as HTMLFormElement);
-        // Convertit les données du formulaire en un objet JSON
-        const formJson = Object.fromEntries(formData.entries());
-        try {
-          // Envoyer une requête PUT pour mettre à jour l'annonce
-          const response = await axios.put(
-            `http://localhost:3000/ads/${id}`,
-            formJson
-          );
-          console.log("Annonce mise à jour avec succès!", response.data);
-          toast.success("Annonce mise à jour avec succès!", {
-            position: "top-center",
-          });
-          navigate("/");
-        } catch (error) {
-          console.error("Erreur lors de la mise à jour de l'annonce:", error);
-          toast.error("Erreur lors de la mise à jour de l'annonce!");
-        }
-      }}
-    >
-      <label>
-        Titre de l'annonce:
-        <br />
+    <>
+      <form className="form-new-ad" onSubmit={handleSubmit(onSubmit)}>
+        <label>Titre</label>
         <input
           className="text-field"
-          name="title"
+          type="text"
           defaultValue={adDetails.title}
+          placeholder="Titre"
+          {...register("title", { min: 1, maxLength: 50 })}
         />
-      </label>
-      <br />
-      <label>
-        Description :
-        <br />
+
+        <label>Description</label>
         <input
           className="text-field"
-          name="description"
+          type="text"
           defaultValue={adDetails.description}
+          placeholder="Description"
+          {...register("description", { min: 1, maxLength: 150 })}
         />
-      </label>
-      <br />
-      <label>
-        Prix :
-        <br />
+        <label>Nom</label>
         <input
           className="text-field"
-          name="price"
-          defaultValue={adDetails.price}
+          defaultValue={adDetails.owner}
+          type="text"
+          placeholder="Nom"
+          {...register("owner", { maxLength: 80 })}
         />
-      </label>
-      <br />
-      <label>
-        Mail :
-        <br />
+        <label>Email</label>
         <input
           className="text-field"
-          name="mail"
           defaultValue={adDetails.email}
+          type="text"
+          placeholder="Email"
+          {...register("email", { pattern: /^\S+@\S+$/i })}
         />
-      </label>
-      <br />
-      <label>
-        Ville :
-        <br />
+
+        <label>Date</label>
         <input
           className="text-field"
-          name="location"
-          defaultValue={adDetails.location}
-        />
-      </label>
-      <br />
-      <label>
-        Date :
-        <br />
-        <input
+          defaultValue={adDetails.createdAt}
           type="date"
-          className="text-field"
-          name="createdAt"
-          //defaultValue={adDetails.createdAt.slice(0, 10)}
+          placeholder="Date"
+          {...register("createdAt", {})}
         />
-      </label>
-      <br />
-      <label>
-        Image :
-        <br />
+        <label>Prix</label>
         <input
           className="text-field"
-          name="picture"
-          defaultValue={adDetails.picture}
+          defaultValue={adDetails.price}
+          type="number"
+          placeholder="Prix"
+          {...register("price", {})}
         />
-      </label>
-      <br />
-      <label>
-        Catégorie :
+        <label>Ville</label>
+        <input
+          className="text-field"
+          defaultValue={adDetails.location}
+          type="text"
+          placeholder="Ville"
+          {...register("location", {})}
+        />
+        <label>Image</label>
+        <input
+          className="text-field"
+          defaultValue={adDetails.picture}
+          type="url"
+          placeholder="Image"
+          {...register("picture", {})}
+        />
+        <label>Categorie</label>
+        <select className="text-field" {...register("category")}>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+        <ErrorMessage
+          errors={errors}
+          name="title"
+          render={({ messages }) =>
+            messages &&
+            Object.entries(messages).map(([type, message]) => {
+              console.log(message);
+              return (
+                <Fragment key={type}>
+                  <br />
+                  <span className="error-message">{message}</span>
+                </Fragment>
+              );
+            })
+          }
+        />
+        <label>Tags :</label>
         <br />
-        <SelectCategory />
-      </label>
-      <br />
-      <button className="button">Submit</button>
-    </form>
+        {tags.map((tag) => (
+          <Fragment key={tag.id}>
+            <label>
+              <input type="checkbox" value={tag.id} {...register("tags")} />
+              {tag.name}
+            </label>
+            <br />
+          </Fragment>
+        ))}
+        <input type="submit" className="button button-primary" />
+      </form>
+    </>
   );
 };
 

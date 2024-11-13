@@ -18,6 +18,32 @@ const AdDetails = () => {
     fetchData();
   }, [id]);
 
+  //   const AdDetails = gql`
+  //   {
+  //   getAllAds {
+  //     id
+  //     title
+  //     description
+  //     owner
+  //     email
+  //     price
+  //     picture
+  //     location
+  //     createdAt
+  //   }
+
+  // `;
+  //   console.log(AdDetails);
+
+  //    export default function App() {
+  //      const { data, isLoading, error } = useQuery("getAllAds", () => {
+  //        console.log(data)
+  //        return(AdDetails);
+  //      });
+
+  //   //   if (isLoading) return "Loading...";
+  //   //   if (error) return <pre>{error.message}</pre>;
+  //   // }
   return (
     <>
       <Header />
@@ -33,6 +59,7 @@ const AdDetails = () => {
         createdAt={adDetails.createdAt}
         location={adDetails.location}
         id={adDetails.id}
+        tags={[]}
       />
       <ButtonDelete />
     </>
