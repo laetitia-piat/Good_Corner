@@ -6,13 +6,13 @@ import {
   JoinTable,
   ManyToMany,
   ManyToOne,
-  //OneToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Category } from "./category";
-import { Tag } from "./tag";
-//import { Picture } from "./picture";
+import { Category } from "./Category";
+import { Picture } from "./Picture";
 import { Field, ObjectType } from "type-graphql";
+import { Tag } from "./tag";
 
 @ObjectType()
 @Entity()
@@ -42,11 +42,11 @@ export class Ad extends BaseEntity {
   @Column()
   price: number;
 
-  // @OneToMany(() => Picture, (picture) => picture.ad, {
-  //   cascade: true,
-  //   eager: true,
-  // })
-  // pictures: Picture[];
+  @OneToMany(() => Picture, (picture) => picture.ad, {
+    cascade: true,
+    eager: true,
+  })
+  pictures: Picture[];
 
   @Field()
   @Column()
@@ -56,7 +56,7 @@ export class Ad extends BaseEntity {
   @Column()
   createdAt: string;
 
-  @Field(() => Category)
+  @Field(() => Category, { nullable: true })
   @ManyToOne(() => Category, (category) => category.ads)
   category: Category;
 

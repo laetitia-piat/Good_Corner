@@ -29,6 +29,7 @@ class AdResolver {
     adToSave.owner = newAdData.owner;
     adToSave.price = newAdData.price;
     adToSave.title = newAdData.title;
+    //adToSave.picture = newAdData.picture;
     adToSave.category = newAdData.category;
 
     const result = await adToSave.save();

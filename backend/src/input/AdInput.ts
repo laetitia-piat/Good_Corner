@@ -1,4 +1,4 @@
-import { Category } from "../entities/category";
+import { Category } from "../entities/Category";
 import { Ad } from "../entities/ad";
 import { Field, ID, InputType } from "type-graphql";
 
@@ -21,6 +21,9 @@ class AdInput implements Partial<Ad> {
 
   @Field()
   createdAt: string;
+
+  @Field()
+  picture: string;
 
   @Field(() => ID)
   category: Category;

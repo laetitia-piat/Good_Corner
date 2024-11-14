@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Ad } from "./ad";
+import { Ad } from "./Ad";
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()
@@ -16,8 +16,8 @@ export class Category extends BaseEntity {
   id: number;
 
   @Field()
-  @Column()
-  name: string;
+  @Column({ unique: true })
+  title: string;
 
   @OneToMany(() => Ad, (ad) => ad.category)
   ads: Ad[];
