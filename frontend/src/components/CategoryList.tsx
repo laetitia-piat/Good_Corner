@@ -1,26 +1,15 @@
-import { useEffect, useState } from "react";
-import AllCategory, { CategoryProps } from "./AllCategory";
-import axios from "axios";
+import { useQuery } from "@apollo/client";
+import AllCategory from "./AllCategory";
+import { allCategory } from "../GraphQL/Query";
 
 const CategoryList = () => {
-  const [categories, setCategories] = useState<CategoryProps[]>([]);
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const resultCat = await axios.get<CategoryProps[]>(
-          "http://localhost:3000/categories?name="
-        );
-        setCategories(resultCat.data);
-      } catch (err) {
-        console.log("error", err);
-      }
-    };
-    fetchCategory();
-  }, []);
-  //
+  const { loading, error, data } = useQuery(allCategory);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :</p>;
+
   return (
     <nav className="categories-navigation">
-      {categories.map((category) => (
+      {data.getAllCategories.map((category: any) => (
         <AllCategory
           name={category.name}
           link={`category/${category.name}`}

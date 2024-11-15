@@ -5,7 +5,7 @@ import { dataSourceGoodCorner } from "./config/db";
 import { Ad } from "./entities/Ad";
 import { Category } from "./entities/Category";
 import { validate } from "class-validator";
-import { Tag } from "./entities/tag";
+import { Tag } from "./entities/Tag";
 import { Like } from "typeorm";
 
 const app = express();

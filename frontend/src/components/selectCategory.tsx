@@ -1,25 +1,14 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-
-type category = {
-  id: number;
-  name: string;
-};
+import { useQuery } from "@apollo/client";
+import { allCategory } from "../GraphQL/Query";
 
 const SelectCategory = () => {
-  const [categories, setCategories] = useState<category[]>([]);
-  useEffect(() => {
-    const fetchCategory = async () => {
-      const resultCat = await axios.get<category[]>(
-        "http://localhost:3000/categories/"
-      );
-      setCategories(resultCat.data);
-    };
-    fetchCategory();
-  }, []);
+  const { loading, error, data } = useQuery(allCategory);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :</p>;
+
   return (
     <select className="text-field" name="category">
-      {categories.map((category) => (
+      {data.getAllCategories.map((category: any) => (
         <option value={category.id} key={category.id}>
           {category.name}
         </option>

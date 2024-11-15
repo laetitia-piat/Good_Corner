@@ -1,0 +1,31 @@
+import { gql } from "@apollo/client";
+
+export const CREATE_NEW_AD = gql`
+  mutation createNewAd($data: AdInput!) {
+    createNewAd(data: $data) {
+      id
+      title
+      description
+      owner
+      email
+      price
+      location
+      createdAt
+      pictures {
+        url
+      }
+    }
+  }
+`;
+
+export const UPDATE_AD = gql`
+  mutation UpdateAd($data: UpdateAdInput!) {
+    updateAd(data: $data)
+  }
+`;
+
+export const DELETE_AD = gql`
+  mutation DeleteAdById($deleteAdByIdId: Float!) {
+    deleteAdById(id: $deleteAdByIdId)
+  }
+`;

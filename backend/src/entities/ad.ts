@@ -12,7 +12,7 @@ import {
 import { Category } from "./Category";
 import { Picture } from "./Picture";
 import { Field, ObjectType } from "type-graphql";
-import { Tag } from "./tag";
+import { Tag } from "./Tag";
 
 @ObjectType()
 @Entity()
@@ -42,6 +42,7 @@ export class Ad extends BaseEntity {
   @Column()
   price: number;
 
+  @Field(() => [Picture])
   @OneToMany(() => Picture, (picture) => picture.ad, {
     cascade: true,
     eager: true,
@@ -57,10 +58,11 @@ export class Ad extends BaseEntity {
   createdAt: string;
 
   @Field(() => Category, { nullable: true })
-  @ManyToOne(() => Category, (category) => category.ads)
+  @ManyToOne(() => Category, (category) => category.ads, { eager: true })
   category: Category;
 
-  @ManyToMany(() => Tag, { eager: true })
+  @Field(() => Tag, { nullable: true })
+  @ManyToMany(() => Tag, (tag) => tag.ads, { eager: true })
   @JoinTable()
   tags: Tag[];
 }

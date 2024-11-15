@@ -1,10 +1,11 @@
-import axios from "axios";
-import { ErrorMessage } from "@hookform/error-message";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Fragment } from "react/jsx-runtime";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useMutation, useQuery } from "@apollo/client";
+import { CREATE_NEW_AD } from "../GraphQL/Mutation";
+import { allCategory } from "../GraphQL/Query";
+import { ErrorMessage } from "@hookform/error-message";
+import { Fragment } from "react/jsx-runtime";
 
 export type Inputs = {
   title: string;
@@ -12,56 +13,52 @@ export type Inputs = {
   price: number;
   description: string;
   email: string;
-  picture: string;
+  picturesUrl: string;
   location: string;
   category: string;
   createdAt: string;
   tags: number[];
 };
-export type category = {
-  id: number;
-  name: string;
-};
-export type Tags = {
-  id: number;
-  name: string;
-};
 
 const NewAdForm = () => {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState<category[]>([]);
-  const [tags, setTags] = useState([] as Tags[]);
-  useEffect(() => {
-    const fetchTags = async () => {
-      const result = await axios.get<Tags[]>("http://localhost:3000/tags/");
-      setTags(result.data);
-    };
-    const fetchCategory = async () => {
-      const resultCat = await axios.get<category[]>(
-        "http://localhost:3000/categories/"
-      );
-      setCategories(resultCat.data);
-    };
-    fetchTags();
-    fetchCategory();
-  }, []);
+
+  const { loading, error, data } = useQuery(allCategory);
+  console.log("data", data);
+  const [createNewAd] = useMutation(CREATE_NEW_AD);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ criteriaMode: "all" });
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const dataForBackend = {
-      ...data,
-      tags: data.tags.map((el) => ({ id: el })),
-    };
+
+  if (loading) return "Submitting...";
+  if (error) return `Submission error! ${error.message}`;
+
+  const onSubmit: SubmitHandler<Inputs> = async (formData) => {
     try {
-      await axios.post("http://localhost:3000/ads", dataForBackend);
+      await createNewAd({
+        variables: {
+          data: {
+            title: formData.title,
+            owner: formData.owner,
+            price: Number(formData.price),
+            description: formData.description,
+            email: formData.email,
+            picturesUrl: formData.picturesUrl,
+            location: formData.location,
+            category: formData.category,
+            createdAt: formData.createdAt,
+            tags: formData.tags,
+          },
+        },
+      });
+
       toast.success("Ad has been added", { position: "top-center" });
       navigate("/");
-    } catch (err) {
-      console.log(err);
-      toast.error("An error occured");
+    } catch (error: any) {
+      toast.error(`Error: ${error.message}`, { position: "top-center" });
     }
   };
   return (
@@ -123,11 +120,11 @@ const NewAdForm = () => {
           className="text-field"
           type="url"
           placeholder="Image"
-          {...register("picture", {})}
+          {...register("picturesUrl", {})}
         />
         <label>Categorie</label>
         <select className="text-field" {...register("category")}>
-          {categories.map((category) => (
+          {data.getAllCategories.map((category: any) => (
             <option key={category.id} value={category.id}>
               {category.name}
             </option>
@@ -149,7 +146,7 @@ const NewAdForm = () => {
             })
           }
         />
-        <label>Tags :</label>
+        {/* <label>Tags :</label>
         <br />
         {tags.map((el) => (
           <Fragment key={el.id}>
@@ -159,7 +156,7 @@ const NewAdForm = () => {
             </label>
             <br />
           </Fragment>
-        ))}
+        ))} */}
         <input type="submit" className="button button-primary" />
       </form>
     </>

@@ -1,30 +1,33 @@
 import { Category } from "../entities/Category";
 import { Ad } from "../entities/Ad";
 import { Field, ID, InputType } from "type-graphql";
-//import { Tag } from "../entities/Tag";
+import { Tag } from "../entities/Tag";
 //import { Picture } from "../entities/Picture";
 
 @InputType()
-class AdInput implements Partial<Ad> {
+class UpdateAdInput implements Partial<Ad> {
   @Field()
+  id: number;
+
+  @Field({ nullable: true })
   title: string;
 
-  @Field()
+  @Field({ nullable: true })
   description: string;
 
-  @Field()
+  @Field({ nullable: true })
   owner: string;
 
-  @Field()
+  @Field({ nullable: true })
   price: number;
 
-  @Field()
+  @Field({ nullable: true })
   location: string;
 
-  @Field()
+  @Field({ nullable: true })
   createdAt: string;
 
-  @Field()
+  @Field({ nullable: true })
   email: string;
 
   @Field(() => [String], { nullable: true })
@@ -34,7 +37,7 @@ class AdInput implements Partial<Ad> {
   category: Category;
 
   @Field(() => [ID], { nullable: true })
-  tagName?: string[];
+  tags?: Tag[] | undefined;
 }
 
-export default AdInput;
+export default UpdateAdInput;

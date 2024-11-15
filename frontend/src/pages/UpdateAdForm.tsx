@@ -1,50 +1,46 @@
-import axios from "axios";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { AdCardProps } from "../components/AdCardDetails";
 import { toast } from "react-toastify";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
-import { category, Inputs, Tags } from "./NewAdForm";
+import { Inputs } from "./NewAdForm";
+import { AdByIdDetails, allCategory } from "../GraphQL/Query";
+import { useMutation, useQuery } from "@apollo/client";
+import { UPDATE_AD } from "../GraphQL/Mutation";
 
 const UpdateAdForm = () => {
   const navigate = useNavigate();
-  const [categories, setCategories] = useState<category[]>([]);
-  const [tags, setTags] = useState([] as Tags[]);
   const { id } = useParams();
-  const [adDetails, setAdDetails] = useState({} as AdCardProps);
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios.get(`http://localhost:3000/ads/${id}`);
-      console.log(result);
-      setAdDetails(result.data);
-    };
-    const fetchTags = async () => {
-      const result = await axios.get<Tags[]>("http://localhost:3000/tags/");
-      setTags(result.data);
-    };
-    const fetchCategory = async () => {
-      const resultCat = await axios.get<category[]>(
-        "http://localhost:3000/categories/"
-      );
-      setCategories(resultCat.data);
-    };
-    fetchData();
-    fetchCategory();
-    fetchTags();
-  }, [id]);
+
+  const { loading, error, data } = useQuery(AdByIdDetails, {
+    variables: { getAdByIdId: Number(id) },
+  });
+  const dataCategory = useQuery(allCategory);
+  console.log({ dataCategory });
+  const allCategories = dataCategory.data;
+  console.log(allCategories);
+  const [updateAd] = useMutation(UPDATE_AD);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ criteriaMode: "all" });
+
+  if (loading) return "Submitting...";
+  if (error) return `Submission error! ${error.message}`;
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const dataForBackend = {
       ...data,
-      tags: data.tags.map((tag) => ({ id: tag })),
+      price: Number(data.price),
+      id: Number(id),
+      //picture: data.picturesUrl,
     };
     try {
-      await axios.put(`http://localhost:3000/ads/${id}`, dataForBackend);
+      await updateAd({
+        variables: { data: dataForBackend },
+      });
       toast.success("Annonce modifiée!", { position: "top-center" });
       navigate("/");
     } catch (err) {
@@ -59,7 +55,7 @@ const UpdateAdForm = () => {
         <input
           className="text-field"
           type="text"
-          defaultValue={adDetails.title}
+          defaultValue={data.getAdById.title}
           placeholder="Titre"
           {...register("title", { min: 1, maxLength: 50 })}
         />
@@ -68,14 +64,14 @@ const UpdateAdForm = () => {
         <input
           className="text-field"
           type="text"
-          defaultValue={adDetails.description}
+          defaultValue={data.getAdById.description}
           placeholder="Description"
           {...register("description", { min: 1, maxLength: 150 })}
         />
         <label>Nom</label>
         <input
           className="text-field"
-          defaultValue={adDetails.owner}
+          defaultValue={data.getAdById.owner}
           type="text"
           placeholder="Nom"
           {...register("owner", { maxLength: 80 })}
@@ -83,7 +79,7 @@ const UpdateAdForm = () => {
         <label>Email</label>
         <input
           className="text-field"
-          defaultValue={adDetails.email}
+          defaultValue={data.getAdById.email}
           type="text"
           placeholder="Email"
           {...register("email", { pattern: /^\S+@\S+$/i })}
@@ -92,7 +88,7 @@ const UpdateAdForm = () => {
         <label>Date</label>
         <input
           className="text-field"
-          defaultValue={adDetails.createdAt}
+          defaultValue={data.getAdById.createdAt}
           type="date"
           placeholder="Date"
           {...register("createdAt", {})}
@@ -100,7 +96,7 @@ const UpdateAdForm = () => {
         <label>Prix</label>
         <input
           className="text-field"
-          defaultValue={adDetails.price}
+          defaultValue={data.getAdById.price}
           type="number"
           placeholder="Prix"
           {...register("price", {})}
@@ -108,7 +104,7 @@ const UpdateAdForm = () => {
         <label>Ville</label>
         <input
           className="text-field"
-          defaultValue={adDetails.location}
+          defaultValue={data.getAdById.location}
           type="text"
           placeholder="Ville"
           {...register("location", {})}
@@ -116,15 +112,19 @@ const UpdateAdForm = () => {
         <label>Image</label>
         <input
           className="text-field"
-          defaultValue={adDetails.picture}
+          defaultValue={data.getAdById.pictures[0]?.url}
           type="url"
           placeholder="Image"
-          {...register("picture", {})}
+          {...register("picturesUrl", {})}
         />
         <label>Categorie</label>
         <select className="text-field" {...register("category")}>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
+          {allCategories.getAllCategories.map((category: any) => (
+            <option
+              key={category.id}
+              value={category.id}
+              //selected={data.getAdById.category.name}
+            >
               {category.name}
             </option>
           ))}
@@ -145,7 +145,7 @@ const UpdateAdForm = () => {
             })
           }
         />
-        <label>Tags :</label>
+        {/* <label>Tags :</label>
         <br />
         {tags.map((tag) => (
           <Fragment key={tag.id}>
@@ -155,7 +155,7 @@ const UpdateAdForm = () => {
             </label>
             <br />
           </Fragment>
-        ))}
+        ))} */}
         <input type="submit" className="button button-primary" />
       </form>
     </>

@@ -1,38 +1,29 @@
-import { useEffect, useState } from "react";
-import AdCard, { AdCardProps } from "./AdCard";
-import axios from "axios";
+import { useQuery } from "@apollo/client";
+import AdCard from "./AdCard";
+import { useState } from "react";
+import { allAds } from "../GraphQL/Query";
 
 const RecentAds = () => {
   const [total, setTotal] = useState(0);
-  const [ads, setAds] = useState<AdCardProps[]>([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await axios.get<AdCardProps[]>(
-          "http://localhost:3000/ads"
-        );
-        setAds(result.data);
-      } catch (err) {
-        console.log("error", err);
-      }
-    };
-    fetchData();
-  }, []);
-
+  const { loading, error, data } = useQuery(allAds);
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :</p>;
+  console.log(data);
   return (
     <>
       <h2>Annonces récentes</h2>
       <p>Prix total : {total}€ </p>
       <section className="recent-ads">
-        {ads.map((ad) => (
+        {data.getAllAds.map((ad: any) => (
           <div key={ad.id}>
             <AdCard
               id={ad.id}
-              picture={ad.picture}
+              pictures={ad.pictures[0]?.url}
               link={`ad/${ad.id}`}
               price={ad.price}
               title={ad.title}
               category={ad.category}
+              //tags={[]}
             />
             <button
               className="button button-tot"

@@ -17,7 +17,7 @@ export class Category extends BaseEntity {
 
   @Field()
   @Column({ unique: true })
-  title: string;
+  name: string;
 
   @OneToMany(() => Ad, (ad) => ad.category)
   ads: Ad[];
