@@ -23,6 +23,17 @@ class AdResolver {
     return ad;
   }
 
+  @Query(() => [Ad])
+  async getAdsByCategory(
+    @Arg("categoryName") categoryName: string
+  ): Promise<Ad[]> {
+    const ads = await Ad.find({
+      where: { category: { name: String(categoryName) } },
+      relations: ["category"],
+    });
+    return ads;
+  }
+
   @Mutation(() => Ad)
   async createNewAd(@Arg("data") newAdData: AdInput) {
     const pictures: Picture[] = [];
