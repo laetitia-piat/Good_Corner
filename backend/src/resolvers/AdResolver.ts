@@ -19,20 +19,8 @@ class AdResolver {
 
   @Query(() => Ad)
   async getAdById(@Arg("id") id: number) {
-    const ad = await Ad.findOneByOrFail({ id });
+    const ad = await Ad.findOneByOrFail({ id: id });
     return ad;
-  }
-
-  @Query(() => [Ad])
-  async getAdsByCategory(
-    @Arg("categoryName") categoryName: string
-  ): Promise<Ad[]> {
-    const ads = await Ad.find({
-      where: { category: { name: String(categoryName) } },
-      relations: ["category"],
-    });
-
-    return ads;
   }
 
   @Mutation(() => Ad)
@@ -60,57 +48,30 @@ class AdResolver {
 
   @Mutation(() => String)
   async updateAd(@Arg("data") updateData: UpdateAdInput) {
-    let adToUpdate = await Ad.findOneByOrFail({ id: updateData.id });
-    adToUpdate = Object.assign(adToUpdate, updateData);
-    // const pictures: Picture[] = [];
-    // if (updateData.picturesUrl) {
-    //   updateData.picturesUrl?.forEach((el) => {
-    //     const newPicture = new Picture();
-    //     newPicture.url = el;
-    //     pictures.push(newPicture);
-    //   });
-    // }
-    const result = await adToUpdate.save();
-    console.log(result);
+    // Récupérer l'annonce avec ses images actuelles
+    const adToUpdate = await Ad.findOneOrFail({
+      where: { id: updateData.id },
+      relations: ["pictures"],
+    });
+
+    // Mise à jour des champs de l'annonce (hors images)
+    Object.assign(adToUpdate, updateData);
+
+    if (updateData.picturesUrl) {
+      for (const url of updateData.picturesUrl) {
+        const newPicture: any = new Picture();
+        newPicture.url = url;
+        newPicture.ad = adToUpdate; // Associer la photo à l'annonce
+        await newPicture.save();
+        adToUpdate.pictures.push(newPicture); // Ajouter la photo à la relation
+      }
+    }
+    // Sauvegarder l'annonce mise à jour
+    await adToUpdate.save();
+
+    console.log("Ad updated with pictures:", adToUpdate);
     return "Ad has been updated";
   }
-
-  // @Mutation(() => String)
-  // async updateAd(@Arg("data") updateData: UpdateAdInput) {
-  //   // Récupérer l'annonce avec ses images actuelles
-  //   const adToUpdate = await Ad.findOneOrFail({
-  //     where: { id: updateData.id },
-  //     relations: ["pictures"],
-  //   });
-
-  //   // Mise à jour des champs de l'annonce (hors images)
-  //   Object.assign(adToUpdate, updateData);
-
-  //   // Si des nouvelles URLs sont fournies
-  //   if (updateData.picturesUrl) {
-  //     // Supprimer les anciennes images
-  //     if (adToUpdate.pictures && adToUpdate.pictures.length > 0) {
-  //       await Picture.remove(adToUpdate.pictures);
-  //     }
-
-  //     // Créer de nouvelles images
-  //     const newPictures = updateData.picturesUrl.map((url) => {
-  //       const picture = new Picture();
-  //       picture.url = url;
-  //       picture.ad = adToUpdate; // Lier l'image à l'annonce
-  //       return picture;
-  //     });
-
-  //     // Sauvegarder les nouvelles images
-  //     await Picture.save(newPictures);
-  //   }
-
-  //   // Sauvegarder l'annonce mise à jour
-  //   await adToUpdate.save();
-
-  //   console.log("Ad updated with pictures:", adToUpdate);
-  //   return "Ad has been updated";
-  // }
 
   @Mutation(() => String)
   async deleteAdById(@Arg("id") id: number) {

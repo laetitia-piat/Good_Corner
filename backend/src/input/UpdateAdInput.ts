@@ -2,6 +2,7 @@ import { Category } from "../entities/Category";
 import { Ad } from "../entities/Ad";
 import { Field, ID, InputType } from "type-graphql";
 import { Tag } from "../entities/Tag";
+import PictureInput from "./PictureInput";
 //import { Picture } from "../entities/Picture";
 
 @InputType()
@@ -31,7 +32,7 @@ class UpdateAdInput implements Partial<Ad> {
   email: string;
 
   @Field(() => [String], { nullable: true })
-  picturesUrl?: string[];
+  picturesUrl?: PictureInput[];
 
   @Field(() => ID, { nullable: true })
   category: Category;
