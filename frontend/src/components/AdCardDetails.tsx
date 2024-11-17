@@ -30,7 +30,7 @@ const AdCardDetails = ({
         <img className="ad-details-image" src={picture} />
       </div>
       <div className="ad-details-info">
-        <div className="ad-details-price">{price}</div>
+        <div className="ad-details-price">{price}€</div>
         <div className="ad-details-description">{description}</div>
         <hr className="separator" />
         <div className="ad-details-owner">
