@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/client";
 import { AdByIdDetails } from "../GraphQL/Query";
 
 const AdDetails = () => {
-  const { id } = useParams();
+  const { id }: any = useParams();
   const { loading, error, data } = useQuery(AdByIdDetails, {
     variables: { getAdByIdId: parseInt(id) },
   });
