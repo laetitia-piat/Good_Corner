@@ -1,15 +1,5 @@
 {
   "version": 2,
-  "projects": [
-    {
-      "name": "frontend",
-      "source": "./frontend"
-    },
-    {
-      "name": "backend",
-      "source": "./backend"
-    }
-  ],
   "rewrites": [
     {
       "source": "/api/(.*)",
