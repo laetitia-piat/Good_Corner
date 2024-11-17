@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import ButtonDelete from "../components/ButtonDelete";
 import { useQuery } from "@apollo/client";
@@ -16,7 +16,7 @@ const AdDetails = () => {
     <>
       <Header />
       <p>TEST</p>
-      {/* <div>
+      <div>
         <h2 className="ad-details-title">{data.getAdById.title}</h2>
         <section className="ad-details">
           <div className="ad-details-image-container">
@@ -59,7 +59,7 @@ const AdDetails = () => {
             </Link>
           </div>
         </section>
-      </div> */}
+      </div>
       <ButtonDelete />
     </>
   );
