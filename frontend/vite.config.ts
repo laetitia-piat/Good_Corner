@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: "dist", // Assurez-vous que cela correspond à votre Output Directory dans Vercel
+    rollupOptions: {
+      input: "index.html",
+    },
   },
 });
