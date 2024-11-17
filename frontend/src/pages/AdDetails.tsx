@@ -30,7 +30,7 @@ const AdDetails = () => {
         createdAt={data.getAdById.createdAt}
         location={data.getAdById.location}
         id={data.getAdById.id}
-        tags={[]}
+        //tags={[]}
       />
       <ButtonDelete />
     </>

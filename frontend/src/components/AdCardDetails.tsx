@@ -11,7 +11,7 @@ export type AdCardProps = {
   email: string;
   owner: string;
   location: string;
-  tags: [];
+  //tags: [];
 };
 
 const AdCardDetails = ({
