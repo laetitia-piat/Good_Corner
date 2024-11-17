@@ -25,14 +25,14 @@ const AdSearchPage = () => {
             <AdCard
               id={ad.id}
               title={ad.title}
-              picture={ad.picture}
+              pictures={ad.pictures}
               price={ad.price}
               link={`../../ad/${ad.id}`}
               category={{
                 id: ad.category.id,
                 name: `${ad.category.name}`,
               }}
-              tags={[]}
+              //tags={[]}
             />
           </div>
         ))}
