@@ -1,10 +1,10 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { dataSourceGoodCorner } from "./config/db";
-import AdResolver from "./resolvers/AdResolver";
+import { dataSourceGoodCorner } from "./src/config/db";
+import AdResolver from "./src/resolvers/AdResolver";
 import { buildSchema } from "type-graphql";
-import CategoryResolver from "./resolvers/CategoryResolver";
-import TagResolver from "./resolvers/TagResolver";
+import CategoryResolver from "./src/resolvers/CategoryResolver";
+import TagResolver from "./src/resolvers/TagResolver";
 
 const start = async () => {
   await dataSourceGoodCorner.initialize();
