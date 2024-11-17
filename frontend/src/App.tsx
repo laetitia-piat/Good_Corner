@@ -3,7 +3,6 @@ import RecentAds from "./components/RecentsAds";
 import Layout from "./pages/Layout";
 import AboutPage from "./pages/AboutPage";
 import AdDetails from "./pages/AdDetails";
-//import NewAdForm from "./pages/NewAdForm";
 import AdbyCategory from "./pages/AdByCategory";
 import UpdateAdForm from "./pages/UpdateAdForm";
 import NewCategoryFormPage from "./pages/NewCategoryForm";
