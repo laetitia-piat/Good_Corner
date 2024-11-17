@@ -18,8 +18,8 @@ class AdResolver {
   }
 
   @Query(() => Ad)
-  async getAdById(@Arg("id") id: number) {
-    const ad = await Ad.findOneByOrFail({ id: id });
+  async getAdById(@Arg("title") title: string) {
+    const ad = await Ad.findOneByOrFail({ title: title });
     return ad;
   }
 

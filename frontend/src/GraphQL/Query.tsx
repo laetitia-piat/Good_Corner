@@ -55,7 +55,7 @@ export const allAds = gql`
 
 export const AdByIdDetails = gql`
   query getAdById($getAdByIdId: Float!) {
-    getAdById(id: $getAdByIdId) {
+    getAdById(title: $getAdByIdId) {
       id
       title
       description
