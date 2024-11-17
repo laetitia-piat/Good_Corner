@@ -7,10 +7,16 @@ import { AdByIdDetails } from "../GraphQL/Query";
 
 const AdDetails = () => {
   const { id }: any = useParams();
+
   const { loading, error, data } = useQuery(AdByIdDetails, {
     variables: { getAdByIdId: parseFloat(id) },
   });
   console.log(data);
+  const parsedId = parseInt(id, 10); // Conversion explicite en entier
+  if (isNaN(parsedId)) {
+    console.error("ID invalide :", id);
+    return <p>ID invalide</p>;
+  }
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :</p>;
