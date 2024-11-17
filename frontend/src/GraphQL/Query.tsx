@@ -1,4 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
 import { gql } from "@apollo/client";
 
 export const byCategory = gql`
@@ -54,8 +53,8 @@ export const allAds = gql`
 `;
 
 export const AdByIdDetails = gql`
-  query getAdById($title: String!) {
-    getAdById(title: $title) {
+  query getAdById($getAdByIdId: Float!) {
+    getAdById(id: $getAdByIdId) {
       id
       title
       description

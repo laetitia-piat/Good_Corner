@@ -21,7 +21,7 @@ const App = () => {
           <Route path="about" element={<AboutPage />} />
           <Route path="ad/new" element={<TestNewAdForm />} />
           <Route path="ad/search/:keyword" element={<AdSearchPage />} />
-          <Route path="ad/:title" element={<AdDetails />} />
+          <Route path="ad/:id" element={<AdDetails />} />
           <Route path="ad/:id/update" element={<UpdateAdForm />} />
           <Route path="category/new" element={<NewCategoryFormPage />} />
           <Route path="category/:name" element={<AdbyCategory />} />
