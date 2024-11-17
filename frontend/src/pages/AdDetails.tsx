@@ -8,7 +8,7 @@ import { AdByIdDetails } from "../GraphQL/Query";
 const AdDetails = () => {
   const { id } = useParams();
   const { loading, error, data } = useQuery(AdByIdDetails, {
-    variables: { getAdByIdId: Number(id) },
+    variables: { getAdByIdId: parseInt(id) },
   });
   console.log(data);
 
