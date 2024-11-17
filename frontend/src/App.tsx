@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import RecentAds from "./components/RecentsAds";
 import Layout from "./pages/Layout";
 import AboutPage from "./pages/AboutPage";
-import AdDetails from "./pages/AdDetails";
+//import AdDetails from "./pages/AdDetails";
 import AdbyCategory from "./pages/AdByCategory";
 import UpdateAdForm from "./pages/UpdateAdForm";
 import NewCategoryFormPage from "./pages/NewCategoryForm";
