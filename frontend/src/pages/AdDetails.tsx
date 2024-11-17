@@ -1,15 +1,13 @@
 import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
-//import AdCardDetails from "../components/AdCardDetails";
 import ButtonDelete from "../components/ButtonDelete";
 import { useQuery } from "@apollo/client";
 import { AdByIdDetails } from "../GraphQL/Query";
 
 const AdDetails = () => {
   const { id }: any = useParams();
-
   const { loading, error, data } = useQuery(AdByIdDetails, {
-    variables: { getAdByIdId: parseFloat(id) },
+    variables: { getAdByIdId: parseInt(id) },
   });
   console.log("data", data);
 
