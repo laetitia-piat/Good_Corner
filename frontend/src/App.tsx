@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import RecentAds from "./components/RecentsAds";
 import Layout from "./pages/Layout";
 import AboutPage from "./pages/AboutPage";
-//import AdDetails from "./pages/AdDetails";
+import AdDetails from "./pages/AdDetails";
 import AdbyCategory from "./pages/AdByCategory";
 import UpdateAdForm from "./pages/UpdateAdForm";
 import NewCategoryFormPage from "./pages/NewCategoryForm";
@@ -21,7 +21,7 @@ const App = () => {
           <Route path="about" element={<AboutPage />} />
           <Route path="ad/new" element={<TestNewAdForm />} />
           <Route path="ad/search/:keyword" element={<AdSearchPage />} />
-          <Route path="ad/:id" element={<AboutPage />} />
+          <Route path="ad/:id" element={<AdDetails />} />
           <Route path="ad/:id/update" element={<UpdateAdForm />} />
           <Route path="category/new" element={<NewCategoryFormPage />} />
           <Route path="category/:name" element={<AdbyCategory />} />
