@@ -7,18 +7,16 @@ import UpdateTagInput from "../input/UpdateTagInput";
 class TagResolver {
   @Query(() => [Tag])
   async getAllTags() {
-    const Tags = await Tag.find({
-      order: {
-        id: "DESC",
-      },
-    });
+    const Tags = await Tag.find();
     return Tags;
   }
+
   @Query(() => Tag)
   async getTagById(@Arg("id") id: number) {
     const tag = await Tag.findOneByOrFail({ id: id });
     return tag;
   }
+
   @Mutation(() => Tag)
   async createNewTag(@Arg("data") newAdData: TagInput) {
     const TagToSave = new Tag();

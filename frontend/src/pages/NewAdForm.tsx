@@ -1,11 +1,12 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
-import { CREATE_NEW_AD } from "../GraphQL/Mutation";
-import { allCategory } from "../GraphQL/Query";
 import { ErrorMessage } from "@hookform/error-message";
 import { Fragment } from "react/jsx-runtime";
+import {
+  useCreateNewAdMutation,
+  useGetAllCategoriesAndTagsQuery,
+} from "../generated/graphql-types";
 
 export type Inputs = {
   title: string;
@@ -13,19 +14,18 @@ export type Inputs = {
   price: number;
   description: string;
   email: string;
-  picturesUrl: string;
+  picturesUrl: any;
   location: string;
   category: string;
   createdAt: string;
-  tags: number[];
+  tags: string[];
 };
 
 const NewAdForm = () => {
   const navigate = useNavigate();
 
-  const { loading, error, data } = useQuery(allCategory);
-  console.log("data", data);
-  const [createNewAd] = useMutation(CREATE_NEW_AD);
+  const { loading, error, data } = useGetAllCategoriesAndTagsQuery();
+  const [createNewAd] = useCreateNewAdMutation();
 
   const {
     register,
@@ -36,23 +36,17 @@ const NewAdForm = () => {
   if (loading) return "Submitting...";
   if (error) return `Submission error! ${error.message}`;
 
-  const onSubmit: SubmitHandler<Inputs> = async (formData) => {
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const dataForBackend = {
+      ...data,
+      price: Number(data.price),
+      createdAt: data.createdAt + "T00:00:00.000Z",
+      picturesUrl: [data.picturesUrl],
+      tags: data.tags ? data.tags : [],
+    };
     try {
       await createNewAd({
-        variables: {
-          data: {
-            title: formData.title,
-            owner: formData.owner,
-            price: Number(formData.price),
-            description: formData.description,
-            email: formData.email,
-            picturesUrl: formData.picturesUrl,
-            location: formData.location,
-            category: formData.category,
-            createdAt: formData.createdAt,
-            tags: formData.tags,
-          },
-        },
+        variables: { data: dataForBackend },
       });
 
       toast.success("Ad has been added", { position: "top-center" });
@@ -124,7 +118,7 @@ const NewAdForm = () => {
         />
         <label>Categorie</label>
         <select className="text-field" {...register("category")}>
-          {data.getAllCategories.map((category: any) => (
+          {data?.getAllCategories.map((category: any) => (
             <option key={category.id} value={category.id}>
               {category.name}
             </option>
@@ -146,9 +140,9 @@ const NewAdForm = () => {
             })
           }
         />
-        {/* <label>Tags :</label>
+        <label>Tags :</label>
         <br />
-        {tags.map((el) => (
+        {data?.getAllTags.map((el: any) => (
           <Fragment key={el.id}>
             <label>
               <input type="checkbox" value={el.id} {...register("tags")} />
@@ -156,7 +150,7 @@ const NewAdForm = () => {
             </label>
             <br />
           </Fragment>
-        ))} */}
+        ))}
         <input type="submit" className="button button-primary" />
       </form>
     </>

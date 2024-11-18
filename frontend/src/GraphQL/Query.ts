@@ -18,6 +18,10 @@ export const byCategory = gql`
       pictures {
         url
       }
+      tags {
+        id
+        name
+      }
     }
   }
 `;
@@ -48,6 +52,10 @@ export const allAds = gql`
       category {
         name
       }
+      tags {
+        id
+        name
+      }
     }
   }
 `;
@@ -69,6 +77,23 @@ export const AdByIdDetails = gql`
       category {
         name
       }
+      tags {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const GET_ALL_CATEGORIES_AND_TAGS = gql`
+  query GetAllCategoriesAndTags {
+    getAllCategories {
+      id
+      name
+    }
+    getAllTags {
+      id
+      name
     }
   }
 `;

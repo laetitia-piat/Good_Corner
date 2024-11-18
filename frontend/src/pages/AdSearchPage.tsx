@@ -31,7 +31,7 @@ const AdSearchPage = () => {
               category={{
                 name: `${ad.category?.name}`,
               }}
-              //tags={[]}
+              tags={[]}
             />
           </div>
         ))}

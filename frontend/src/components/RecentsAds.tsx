@@ -24,7 +24,7 @@ const RecentAds = () => {
                 price={ad.price}
                 title={ad.title}
                 category={ad?.category}
-                //tags={[]}
+                tags={[]} //tags={[ad?.tags]}
               />
               <button
                 className="button button-tot"

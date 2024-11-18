@@ -2,11 +2,14 @@ import { useMutation } from "@apollo/client";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { DELETE_AD } from "../GraphQL/Mutation";
+import { allAds } from "../GraphQL/Query";
 
 const ButtonDelete: any = () => {
   const navigate = useNavigate();
   const { id }: any = useParams();
-  const [deleteAd] = useMutation(DELETE_AD);
+  const [deleteAd] = useMutation(DELETE_AD, {
+    refetchQueries: [{ query: allAds }], // Recharge les annonces après la suppression
+  });
   return (
     <button
       className="button button-primary"

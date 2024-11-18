@@ -4,7 +4,7 @@ import { Field, InputType } from "type-graphql";
 @InputType()
 class PictureInput implements Partial<Picture> {
   @Field(() => String)
-  static url: any;
+  url: string;
 
   @Field({ nullable: true })
   id?: number;

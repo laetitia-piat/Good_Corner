@@ -44,15 +44,16 @@ class AdResolver {
         pictures.push(newPicture);
       });
     }
-    // const tags: Tag[] = [];
-    // if (newAdData.tagName) {
-    //   newAdData.tagName?.forEach((el) => {
-    //     const newTag = new Tag();
-    //     newTag.name = el;
-    //     tags.push(newTag);
-    //   });
-    // }
-    const newAdToSave = Ad.create({ ...newAdData, pictures /* , tags */ });
+
+    const newAdToSave = Ad.create({
+      ...newAdData,
+      pictures,
+      tags: newAdData.tags.map((el) => ({ id: parseInt(el) })),
+    });
+    console.log(
+      "new ad to save tags",
+      JSON.stringify(newAdToSave.tags, null, 2)
+    );
     const result = await newAdToSave.save();
     return result;
   }

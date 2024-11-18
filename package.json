@@ -1,5 +1,9 @@
 {
   "scripts": {
     "build": "cd frontend && npm install && npm run build"
+  },
+  "dependencies": {
+    "react-hook-form": "^7.53.2",
+    "react-select": "^5.8.3"
   }
 }
