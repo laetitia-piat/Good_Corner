@@ -64,6 +64,24 @@ h1 {
   background-color: white;
   cursor: pointer;
 }
+
+.button-Add-Image {
+  max-width: 80px;
+  height: 40px;
+  padding: 8px;
+  margin: auto;
+  border-radius: 8px;
+  border: 2px solid #ffa41b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffa41b;
+  background-color: white;
+  cursor: pointer;
+}
 .button-tot {
   margin: auto;
   padding: 5px;
@@ -208,6 +226,10 @@ h1 {
 .ad-details {
   display: grid;
   gap: 24px;
+}
+.image-input-and-remove {
+  display: flex;
+  margin-bottom: 10px;
 }
 
 @media screen and (min-width: 720px) {

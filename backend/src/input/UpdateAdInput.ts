@@ -2,8 +2,12 @@ import { Category } from "../entities/Category";
 import { Ad } from "../entities/Ad";
 import { Field, ID, InputType } from "type-graphql";
 import { Tag } from "../entities/Tag";
-import PictureInput from "./PictureInput";
-//import { Picture } from "../entities/Picture";
+
+@InputType()
+class PictureInput {
+  @Field()
+  url: string;
+}
 
 @InputType()
 class UpdateAdInput implements Partial<Ad> {

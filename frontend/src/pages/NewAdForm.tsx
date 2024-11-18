@@ -1,4 +1,4 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useFieldArray } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage } from "@hookform/error-message";
@@ -14,7 +14,7 @@ export type Inputs = {
   price: number;
   description: string;
   email: string;
-  picturesUrl: any;
+  picturesUrl: { url: string }[];
   location: string;
   category: string;
   createdAt: string;
@@ -30,8 +30,14 @@ const NewAdForm = () => {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<Inputs>({ criteriaMode: "all" });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "picturesUrl",
+  });
 
   if (loading) return "Submitting...";
   if (error) return `Submission error! ${error.message}`;
@@ -41,7 +47,7 @@ const NewAdForm = () => {
       ...data,
       price: Number(data.price),
       createdAt: data.createdAt + "T00:00:00.000Z",
-      picturesUrl: [data.picturesUrl],
+      picturesUrl: data.picturesUrl,
       tags: data.tags ? data.tags : [],
     };
     try {
@@ -110,12 +116,43 @@ const NewAdForm = () => {
           {...register("location", {})}
         />
         <label>Image</label>
-        <input
-          className="text-field"
-          type="url"
-          placeholder="Image"
-          {...register("picturesUrl", {})}
-        />
+        <br />
+        <section className="image-input-and-remove">
+          <input
+            className="text-field"
+            placeholder="Your image url"
+            {...register(`picturesUrl`)}
+          />
+          <button
+            className="button"
+            type="button"
+            onClick={() => append({ url: "" })}
+          >
+            +
+          </button>
+        </section>
+        <br />
+        <div className="field">
+          {fields.map((field, index) => {
+            return (
+              <div key={field.id}>
+                <section className="image-input-and-remove">
+                  <input
+                    className="text-field"
+                    placeholder="Your image url"
+                    {...register(`picturesUrl.${index}.url` as const)}
+                  />
+                  <button className="button" onClick={() => remove(index)}>
+                    -
+                  </button>
+                  <br />
+                </section>
+                <span>{errors.picturesUrl?.[index]?.url?.message}</span>
+              </div>
+            );
+          })}
+        </div>
+
         <label>Categorie</label>
         <select className="text-field" {...register("category")}>
           {data?.getAllCategories.map((category: any) => (
@@ -141,16 +178,18 @@ const NewAdForm = () => {
           }
         />
         <label>Tags :</label>
-        <br />
-        {data?.getAllTags.map((el: any) => (
-          <Fragment key={el.id}>
-            <label>
-              <input type="checkbox" value={el.id} {...register("tags")} />
-              {el.name}
-            </label>
-            <br />
-          </Fragment>
-        ))}
+        <section>
+          <br />
+          {data?.getAllTags.map((el: any) => (
+            <Fragment key={el.id}>
+              <label>
+                <input type="checkbox" value={el.id} {...register("tags")} />
+                {el.name}
+              </label>
+              <br />
+            </Fragment>
+          ))}
+        </section>
         <input type="submit" className="button button-primary" />
       </form>
     </>

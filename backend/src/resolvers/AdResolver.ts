@@ -36,18 +36,9 @@ class AdResolver {
 
   @Mutation(() => Ad)
   async createNewAd(@Arg("data") newAdData: AdInput) {
-    const pictures: Picture[] = [];
-    if (newAdData.picturesUrl) {
-      newAdData.picturesUrl?.forEach((el) => {
-        const newPicture = new Picture();
-        newPicture.url = el;
-        pictures.push(newPicture);
-      });
-    }
-
     const newAdToSave = Ad.create({
       ...newAdData,
-      pictures,
+      pictures: newAdData.picturesUrl,
       tags: newAdData.tags.map((el) => ({ id: parseInt(el) })),
     });
     console.log(
