@@ -9,7 +9,7 @@ export type AdCardProps = {
   pictures: string;
   price: number;
   link: string;
-  category: { id: number; name: string };
+  category: { name: string } | undefined | null;
   //tags: [];
 };
 
@@ -20,7 +20,7 @@ const AdCard = ({ link, pictures, title, price, category }: AdCardProps) => (
       <div className="ad-card-text">
         <div className="ad-card-title">{title}</div>
         <div className="ad-card-price">{price}€</div>
-        <div className="ad-card-category">{category.name}</div>
+        <div className="ad-card-category">{category?.name}</div>
       </div>
       <div className="button-ad-card">
         {/* <Link to={`update`} className="button button-primary">
