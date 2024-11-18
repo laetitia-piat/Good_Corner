@@ -25,7 +25,6 @@ const AdbyCategory = () => {
               price={ad.price}
               title={ad.title}
               category={{
-                id: ad.category.id,
                 name: `${ad.category.name}`,
               }}
               // tags={{
