@@ -29,8 +29,7 @@ const AdSearchPage = () => {
               price={ad.price}
               link={`../../ad/${ad.id}`}
               category={{
-                id: ad.category.id,
-                name: `${ad.category.name}`,
+                name: `${ad.category?.name}`,
               }}
               //tags={[]}
             />
