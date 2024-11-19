@@ -91,8 +91,8 @@ class AdResolver {
     // Mise à jour des champs de l'annonce (hors images)
     Object.assign(adToUpdate, updateData);
 
-    if (updateData.picturesUrl) {
-      for (const url of updateData.picturesUrl) {
+    if (updateData.pictures) {
+      for (const url of updateData.pictures) {
         const newPicture: any = new Picture();
         newPicture.url = url;
         newPicture.ad = adToUpdate; // Associer la photo à l'annonce

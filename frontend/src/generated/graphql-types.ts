@@ -172,7 +172,7 @@ export type UpdateAdInput = {
   id: Scalars['Float']['input'];
   location?: InputMaybe<Scalars['String']['input']>;
   owner?: InputMaybe<Scalars['String']['input']>;
-  picturesUrl?: InputMaybe<Array<PictureInput>>;
+  pictures?: InputMaybe<Array<PictureInput>>;
   price?: InputMaybe<Scalars['Float']['input']>;
   tags?: InputMaybe<Array<TagInput>>;
   title?: InputMaybe<Scalars['String']['input']>;
