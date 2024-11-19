@@ -122,7 +122,7 @@ const NewAdForm = () => {
           type="button"
           onClick={() => append({ url: "" })}
         >
-          +
+          Add picture
         </button>
         <br />
         <div className="field">

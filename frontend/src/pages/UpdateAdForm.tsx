@@ -109,14 +109,14 @@ const UpdateAdForm = () => {
           placeholder="Ville"
           {...register("location", {})}
         />
-        <label>Image</label>
+        {/* <label>Image</label>
         <input
           className="text-field"
           defaultValue={data.getAdById.pictures[0]?.url}
           type="url"
           placeholder="Image"
           {...register("picturesUrl", {})}
-        />
+        /> */}
         <label>Categorie</label>
         <select className="text-field" {...register("category")}>
           {allCategories.getAllCategories.map((category: any) => (
