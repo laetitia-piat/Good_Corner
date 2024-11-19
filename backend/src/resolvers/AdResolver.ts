@@ -3,6 +3,7 @@ import { Ad } from "../entities/Ad";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import UpdateAdInput from "../input/UpdateAdInput";
 import { Picture } from "../entities/Picture";
+import { Like } from "typeorm";
 
 @Resolver(Ad)
 class AdResolver {
@@ -11,14 +12,47 @@ class AdResolver {
     const ads = await Ad.find({
       order: {
         id: "DESC",
+        pictures: {
+          id: "DESC",
+        },
       },
     });
     return ads;
   }
 
+  @Query(() => [Ad])
+  async getAdsByKeyWord(
+    @Arg("title", { nullable: true }) title?: string
+  ): Promise<Ad[]> {
+    try {
+      let ads: Ad[];
+
+      if (title) {
+        ads = await Ad.find({
+          where: {
+            title: Like(`%${title}%`),
+          },
+          relations: { category: true, tags: true },
+        });
+      } else {
+        ads = await Ad.find({ relations: { category: true, tags: true } });
+      }
+
+      return ads;
+    } catch (error) {
+      console.error("Erreur lors de la recherche des annonces :", error);
+      throw new Error(
+        "Une erreur est survenue lors de la récupération des annonces."
+      );
+    }
+  }
+
   @Query(() => Ad)
   async getAdById(@Arg("id") id: number) {
-    const ad = await Ad.findOneByOrFail({ id: id });
+    const ad = await Ad.findOne({
+      where: { id: id },
+      order: { pictures: { id: "DESC" } },
+    });
     return ad;
   }
 

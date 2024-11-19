@@ -97,3 +97,27 @@ export const GET_ALL_CATEGORIES_AND_TAGS = gql`
     }
   }
 `;
+
+export const GET_ADS_BY_KEYWORD = gql`
+  query GetAdsByKeyWord($title: String) {
+    getAdsByKeyWord(title: $title) {
+      id
+      title
+      description
+      owner
+      email
+      price
+      pictures {
+        url
+      }
+      location
+      createdAt
+      category {
+        name
+      }
+      tags {
+        name
+      }
+    }
+  }
+`;

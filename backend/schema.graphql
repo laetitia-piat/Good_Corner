@@ -62,6 +62,7 @@ input PictureInput {
 type Query {
   getAdById(id: Float!): Ad!
   getAdsByCategory(categoryName: String!): [Ad!]!
+  getAdsByKeyWord(title: String): [Ad!]!
   getAllAds: [Ad!]!
   getAllCategories: [Category!]!
   getAllTags: [Tag!]!

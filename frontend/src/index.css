@@ -64,6 +64,25 @@ h1 {
   background-color: white;
   cursor: pointer;
 }
+.ad-details-tags {
+  display: flex;
+  justify-content: center;
+}
+.ad-tags {
+  min-width: 50px;
+  height: 30px;
+  padding: 4px;
+  border-radius: 15px;
+  border: 2px solid #ffa41b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  color: #ffa41b;
+  background-color: white;
+  margin: 0 5px;
+}
 
 .button-Add-Image {
   min-width: 80px;
@@ -230,6 +249,47 @@ h1 {
 .image-input-and-remove {
   display: flex;
   margin-bottom: 10px;
+}
+
+/* Conteneur principal */
+.ad-details-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+/* Image principale */
+.ad-details-main-image {
+  width: 100%; /* Adapter à la largeur du conteneur */
+  max-width: 500px; /* Limite la taille maximale */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+/* Conteneur des miniatures */
+.ad-details-thumbnail-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Images miniatures */
+.ad-details-thumbnail {
+  width: 100px;
+  height: 100px;
+  object-fit: cover; /* Maintient les proportions */
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.ad-details-thumbnail:hover {
+  transform: scale(1.1);
 }
 
 @media screen and (min-width: 720px) {

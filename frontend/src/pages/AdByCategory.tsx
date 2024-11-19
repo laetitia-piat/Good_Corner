@@ -7,7 +7,9 @@ import { byCategory } from "../GraphQL/Query";
 const AdbyCategory = () => {
   const { name } = useParams();
   const { loading, error, data } = useQuery(byCategory, {
-    variables: { categoryName: name },
+    variables: {
+      categoryName: name,
+    },
   });
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :</p>;

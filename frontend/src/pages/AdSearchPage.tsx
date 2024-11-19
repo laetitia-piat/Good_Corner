@@ -1,31 +1,29 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import AdCard, { AdCardProps } from "../components/AdCard";
+import AdCard from "../components/AdCard";
+import { useGetAdsByKeyWordQuery } from "../generated/graphql-types";
 
 const AdSearchPage = () => {
   const { keyword } = useParams();
-  const [ads, setAds] = useState<AdCardProps[]>([]);
-  useEffect(() => {
-    const fetchAdsForKeyword = async () => {
-      const result = await axios.get(
-        `http://localhost:3000/ads?title=${keyword}`
-      );
-      console.log("result", result);
-      setAds(result.data);
-    };
-    fetchAdsForKeyword();
-  }, [keyword]);
+  const { loading, error, data } = useGetAdsByKeyWordQuery({
+    variables: {
+      title: keyword,
+    },
+  });
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :</p>;
+  console.log(data);
+
   return (
     <div>
       <h2>Search results for keyword: {keyword}</h2>
       <section className="recent-ads">
-        {ads.map((ad) => (
+        {data?.getAdsByKeyWord.map((ad) => (
           <div key={ad.id}>
             <AdCard
               id={ad.id}
               title={ad.title}
-              pictures={ad.pictures}
+              pictures={ad.pictures[0]?.url}
               price={ad.price}
               link={`../../ad/${ad.id}`}
               category={{
