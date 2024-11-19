@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { Inputs } from "./NewAdForm";
 import { AdByIdDetails, allAds } from "../GraphQL/Query";
@@ -32,14 +32,14 @@ const UpdateAdForm = () => {
   const {
     register,
     handleSubmit,
-    control,
+    //control,
     formState: { errors },
   } = useForm<Inputs>({ criteriaMode: "all" });
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: "pictures",
-  });
+  // const { fields, append, remove } = useFieldArray({
+  //   control,
+  //   name: "pictures",
+  // });
 
   if (loading) return "Submitting...";
   if (error) return `Submission error! ${error.message}`;
