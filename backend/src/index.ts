@@ -10,6 +10,7 @@ const start = async () => {
   await dataSourceGoodCorner.initialize();
   const schema = await buildSchema({
     resolvers: [AdResolver, CategoryResolver, TagResolver],
+    emitSchemaFile: true,
   });
 
   const server = new ApolloServer({

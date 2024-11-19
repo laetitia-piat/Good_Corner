@@ -7,6 +7,7 @@ import {
   useCreateNewAdMutation,
   useGetAllCategoriesAndTagsQuery,
 } from "../generated/graphql-types";
+import { allAds } from "../GraphQL/Query";
 
 export type Inputs = {
   title: string;
@@ -25,7 +26,9 @@ const NewAdForm = () => {
   const navigate = useNavigate();
 
   const { loading, error, data } = useGetAllCategoriesAndTagsQuery();
-  const [createNewAd] = useCreateNewAdMutation();
+  const [createNewAd] = useCreateNewAdMutation({
+    refetchQueries: [{ query: allAds }],
+  });
 
   const {
     register,
@@ -118,7 +121,7 @@ const NewAdForm = () => {
         <label>Image</label>
         <br />
         <button
-          className="button"
+          className="button-Add-Image"
           type="button"
           onClick={() => append({ url: "" })}
         >

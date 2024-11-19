@@ -1,0 +1,42 @@
+GET http://localhost:3000/ads
+
+###
+GET http://localhost:3000/ads?category=vetement
+
+###
+GET http://localhost:3000/ads?title=bike
+
+###
+
+GET http://localhost:3000/ads/2
+###
+
+POST http://localhost:3000/ads
+Content-Type: application/json
+
+{
+    "title": "Bike to sell",
+    "description": "description",
+    "owner": "bike.seller@gmail.com",
+    "price": 100,
+    "pictures":
+      [
+        "https://www.edouard.bzh/wp-content/uploads/2020/11/PXL_20201020_174218902-scaled.jpg",
+        "https://www.edouard.bzh/wp-content/uploads/2020/11/elops-single-speed-500-header-1.jpg"
+      ],
+    "location": "Paris",
+    "createdAt": "2023-09-05T10:13:14.755Z",
+    "tags": [{"id":1},{"id":2}]
+  }
+
+###
+DELETE http://localhost:3000/ads/1
+
+###
+
+PUT http://localhost:3000/ads/10
+Content-Type: application/json
+
+{
+  "title": "Green bike to sell"
+}
