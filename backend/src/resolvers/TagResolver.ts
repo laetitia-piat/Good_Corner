@@ -1,7 +1,7 @@
-import TagInput from "../input/TagInput";
 import { Tag } from "../entities/Tag";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import UpdateTagInput from "../input/UpdateTagInput";
+//import TagInput from "../input/TagInput";
 
 @Resolver(Tag)
 class TagResolver {
@@ -17,14 +17,14 @@ class TagResolver {
     return tag;
   }
 
-  @Mutation(() => Tag)
-  async createNewTag(@Arg("data") newAdData: TagInput) {
-    const TagToSave = new Tag();
-    TagToSave.name = newAdData.name;
+  // @Mutation(() => Tag)
+  // async createNewTag(@Arg("data") newAdData: TagInput) {
+  //   const TagToSave = new Tag();
+  //   TagToSave.id = newAdData.id;
 
-    const result = await TagToSave.save();
-    return result;
-  }
+  //   const result = await TagToSave.save();
+  //   return result;
+  // }
 
   @Mutation(() => String)
   async updateTag(@Arg("data") updateData: UpdateTagInput) {

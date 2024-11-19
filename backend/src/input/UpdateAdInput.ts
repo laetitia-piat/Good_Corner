@@ -2,12 +2,9 @@ import { Category } from "../entities/Category";
 import { Ad } from "../entities/Ad";
 import { Field, ID, InputType } from "type-graphql";
 import { Tag } from "../entities/Tag";
-
-@InputType()
-class PictureInput {
-  @Field()
-  url: string;
-}
+import { Picture } from "../entities/Picture";
+import TagInput from "./TagInput";
+import PictureInput from "./PictureInput";
 
 @InputType()
 class UpdateAdInput implements Partial<Ad> {
@@ -35,13 +32,13 @@ class UpdateAdInput implements Partial<Ad> {
   @Field({ nullable: true })
   email: string;
 
-  @Field(() => [String], { nullable: true })
-  picturesUrl?: PictureInput[];
+  @Field(() => [PictureInput], { nullable: true })
+  picturesUrl?: Picture[];
 
   @Field(() => ID, { nullable: true })
   category: Category;
 
-  @Field(() => [ID], { nullable: true })
+  @Field(() => [TagInput], { nullable: true })
   tags?: Tag[] | undefined;
 }
 

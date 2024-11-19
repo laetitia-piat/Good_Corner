@@ -1,12 +1,10 @@
 import { Category } from "../entities/Category";
 import { Field, ID, InputType } from "type-graphql";
 import { Picture } from "../entities/Picture";
-
-@InputType()
-class PictureInput {
-  @Field()
-  url: string;
-}
+import { Tag } from "../entities/Tag";
+//import { Ad } from "../entities/Ad";
+import TagInput from "./TagInput";
+import PictureInput from "./PictureInput";
 
 @InputType()
 class AdInput {
@@ -32,13 +30,14 @@ class AdInput {
   email: string;
 
   @Field(() => [PictureInput], { nullable: true })
-  picturesUrl?: Picture[];
+  pictures?: Picture[];
 
   @Field(() => ID, { nullable: true })
   category: Category;
 
-  @Field(() => [String], { nullable: true })
-  tags: string[];
+  @Field(() => [TagInput], { nullable: true })
+  tags: Tag[];
+  id: number;
 }
 
 export default AdInput;

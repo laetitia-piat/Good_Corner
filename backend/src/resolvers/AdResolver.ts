@@ -3,7 +3,6 @@ import { Ad } from "../entities/Ad";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import UpdateAdInput from "../input/UpdateAdInput";
 import { Picture } from "../entities/Picture";
-//import { Tag } from "../entities/Tag";
 
 @Resolver(Ad)
 class AdResolver {
@@ -38,13 +37,7 @@ class AdResolver {
   async createNewAd(@Arg("data") newAdData: AdInput) {
     const newAdToSave = Ad.create({
       ...newAdData,
-      pictures: newAdData.picturesUrl,
-      tags: newAdData.tags.map((el) => ({ id: parseInt(el) })),
     });
-    console.log(
-      "new ad to save tags",
-      JSON.stringify(newAdToSave.tags, null, 2)
-    );
     const result = await newAdToSave.save();
     return result;
   }

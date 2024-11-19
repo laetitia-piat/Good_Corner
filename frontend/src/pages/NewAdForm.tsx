@@ -14,7 +14,7 @@ export type Inputs = {
   price: number;
   description: string;
   email: string;
-  picturesUrl: { url: string }[];
+  pictures: { url: string }[];
   location: string;
   category: string;
   createdAt: string;
@@ -36,7 +36,7 @@ const NewAdForm = () => {
 
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "picturesUrl",
+    name: "pictures",
   });
 
   if (loading) return "Submitting...";
@@ -47,9 +47,9 @@ const NewAdForm = () => {
       ...data,
       price: Number(data.price),
       createdAt: data.createdAt + "T00:00:00.000Z",
-      picturesUrl: data.picturesUrl,
-      tags: data.tags ? data.tags : [],
+      tags: data.tags ? data.tags.map((el) => ({ id: parseInt(el) })) : [],
     };
+    console.log(dataForBackend);
     try {
       await createNewAd({
         variables: { data: dataForBackend },
@@ -117,20 +117,13 @@ const NewAdForm = () => {
         />
         <label>Image</label>
         <br />
-        <section className="image-input-and-remove">
-          <input
-            className="text-field"
-            placeholder="Your image url"
-            {...register(`picturesUrl`)}
-          />
-          <button
-            className="button"
-            type="button"
-            onClick={() => append({ url: "" })}
-          >
-            +
-          </button>
-        </section>
+        <button
+          className="button"
+          type="button"
+          onClick={() => append({ url: "" })}
+        >
+          +
+        </button>
         <br />
         <div className="field">
           {fields.map((field, index) => {
@@ -140,14 +133,14 @@ const NewAdForm = () => {
                   <input
                     className="text-field"
                     placeholder="Your image url"
-                    {...register(`picturesUrl.${index}.url` as const)}
+                    {...register(`pictures.${index}.url` as const)}
                   />
                   <button className="button" onClick={() => remove(index)}>
                     -
                   </button>
                   <br />
                 </section>
-                <span>{errors.picturesUrl?.[index]?.url?.message}</span>
+                <span>{errors.pictures?.[index]?.url?.message}</span>
               </div>
             );
           })}
