@@ -33,7 +33,7 @@ class UpdateAdInput implements Partial<Ad> {
   email: string;
 
   @Field(() => [PictureInput], { nullable: true })
-  picturesUrl?: Picture[];
+  pictures?: Picture[];
 
   @Field(() => ID, { nullable: true })
   category: Category;

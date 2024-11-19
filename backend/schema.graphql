@@ -87,7 +87,7 @@ input UpdateAdInput {
   id: Float!
   location: String
   owner: String
-  picturesUrl: [PictureInput!]
+  pictures: [PictureInput!]
   price: Float
   tags: [TagInput!]
   title: String

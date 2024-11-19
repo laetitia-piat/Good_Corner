@@ -26,18 +26,22 @@ class AdResolver {
   ): Promise<Ad[]> {
     try {
       let ads: Ad[];
-
       if (title) {
         ads = await Ad.find({
           where: {
             title: Like(`%${title}%`),
+          },
+          order: {
+            id: "DESC",
+            pictures: {
+              id: "DESC",
+            },
           },
           relations: { category: true, tags: true },
         });
       } else {
         ads = await Ad.find({ relations: { category: true, tags: true } });
       }
-
       return ads;
     } catch (error) {
       console.error("Erreur lors de la recherche des annonces :", error);
