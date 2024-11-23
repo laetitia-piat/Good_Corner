@@ -7,6 +7,8 @@ import { Like } from "typeorm";
 
 @Resolver(Ad)
 class AdResolver {
+  static Query: any;
+  static Mutation: any;
   @Query(() => [Ad])
   async getAllAds() {
     const ads = await Ad.find({

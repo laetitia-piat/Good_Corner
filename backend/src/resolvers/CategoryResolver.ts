@@ -5,6 +5,8 @@ import UpdateCategoryInput from "../input/UpdateCategoryInput";
 
 @Resolver(Category)
 class CategoryResolver {
+  static Query: any;
+  static Mutation: any;
   @Query(() => [Category])
   async getAllCategories() {
     const Categories = await Category.find({

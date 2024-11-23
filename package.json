@@ -3,6 +3,11 @@
     "build": "cd frontend && npm install && npm run build"
   },
   "dependencies": {
+    "apollo-server-core": "^3.13.0",
+    "apollo-server-micro": "^3.13.0",
+    "graphql": "^16.9.0",
+    "micro": "^10.0.1",
+    "micro-cors": "^0.1.1",
     "react-hook-form": "^7.53.2",
     "react-select": "^5.8.3"
   }

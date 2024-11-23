@@ -5,6 +5,8 @@ import UpdateTagInput from "../input/UpdateTagInput";
 
 @Resolver(Tag)
 class TagResolver {
+  static Query: any;
+  static Mutation: any;
   @Query(() => [Tag])
   async getAllTags() {
     const Tags = await Tag.find();

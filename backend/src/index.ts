@@ -15,6 +15,7 @@ const start = async () => {
 
   const server = new ApolloServer({
     schema,
+    // cors: {origin : 'http://localhost:3000'}
   });
 
   const { url } = await startStandaloneServer(server, {
