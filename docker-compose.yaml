@@ -1,4 +1,20 @@
 services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d postgres -U postgres"]
+      interval: 1s
+      timeout: 2s
+      retries: 100
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    depends_on:
+      db:
+        condition: service_healthy
   backend:
     build: ./backend
     ports:
@@ -10,6 +26,9 @@ services:
       interval: 1s
       timeout: 2s
       retries: 100
+    depends_on:
+      db:
+        condition: service_healthy
   frontend:
     build: ./frontend
     ports:
