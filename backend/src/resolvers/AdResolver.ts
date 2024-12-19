@@ -2,7 +2,6 @@ import AdInput from "../input/AdInput";
 import { Ad } from "../entities/Ad";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import UpdateAdInput from "../input/UpdateAdInput";
-import { Picture } from "../entities/Picture";
 import { Like } from "typeorm";
 
 @Resolver(Ad)
@@ -83,29 +82,13 @@ class AdResolver {
   }
 
   @Mutation(() => String)
-  async updateAd(@Arg("data") updateData: UpdateAdInput) {
-    // Récupérer l'annonce avec ses images actuelles
-    const adToUpdate = await Ad.findOneOrFail({
-      where: { id: updateData.id },
-      relations: ["pictures"],
-    });
-
-    // Mise à jour des champs de l'annonce (hors images)
-    Object.assign(adToUpdate, updateData);
-
-    if (updateData.pictures) {
-      for (const url of updateData.pictures) {
-        const newPicture: any = new Picture();
-        newPicture.url = url;
-        newPicture.ad = adToUpdate; // Associer la photo à l'annonce
-        await newPicture.save();
-        adToUpdate.pictures.push(newPicture); // Ajouter la photo à la relation
-      }
-    }
-    // Sauvegarder l'annonce mise à jour
-    await adToUpdate.save();
-
-    console.log("Ad updated with pictures:", adToUpdate);
+  async updateAd(@Arg("data") updateAdData: UpdateAdInput) {
+    let adToUpdate = await Ad.findOneByOrFail({ id: updateAdData.id });
+    console.log("ad to update", adToUpdate);
+    adToUpdate = Object.assign(adToUpdate, updateAdData);
+    console.log("ad to update", adToUpdate);
+    const result = await adToUpdate.save();
+    console.log(result);
     return "Ad has been updated";
   }
 

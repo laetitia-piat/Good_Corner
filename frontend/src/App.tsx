@@ -4,7 +4,7 @@ import Layout from "./pages/Layout";
 import AboutPage from "./pages/AboutPage";
 import AdDetails from "./pages/AdDetails";
 import AdbyCategory from "./pages/AdByCategory";
-import UpdateAdForm from "./pages/UpdateAdForm";
+import UpdateAd from "./pages/UpdateAd";
 import NewCategoryFormPage from "./pages/NewCategoryForm";
 import AdSearchPage from "./pages/AdSearchPage";
 import { ToastContainer } from "react-toastify";
@@ -22,7 +22,7 @@ const App = () => {
           <Route path="ad/new" element={<TestNewAdForm />} />
           <Route path="ad/search/:keyword" element={<AdSearchPage />} />
           <Route path="ad/:id" element={<AdDetails />} />
-          <Route path="ad/:id/update" element={<UpdateAdForm />} />
+          <Route path="ad/:id/update" element={<UpdateAd />} />
           <Route path="category/new" element={<NewCategoryFormPage />} />
           <Route path="category/:name" element={<AdbyCategory />} />
           <Route path="test" element={<AdTagsFetch />} />

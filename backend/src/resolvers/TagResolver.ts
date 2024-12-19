@@ -1,7 +1,6 @@
+import { UpdateTagInput } from "../input/UpdateAdInput";
 import { Tag } from "../entities/Tag";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import UpdateTagInput from "../input/UpdateTagInput";
-//import TagInput from "../input/TagInput";
 
 @Resolver(Tag)
 class TagResolver {

@@ -161,7 +161,7 @@ export type Tag = {
 };
 
 export type TagInput = {
-  id?: InputMaybe<Scalars['Float']['input']>;
+  id: Scalars['Float']['input'];
 };
 
 export type UpdateAdInput = {
@@ -194,6 +194,13 @@ export type CreateNewAdMutationVariables = Exact<{
 
 
 export type CreateNewAdMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, description: string, owner: string, email: string, price: number, location: string, createdAt: string, pictures: Array<{ __typename?: 'Picture', url: string }> } };
+
+export type CreateNewCategoryMutationVariables = Exact<{
+  data: CategoryInput;
+}>;
+
+
+export type CreateNewCategoryMutation = { __typename?: 'Mutation', createNewCategory: { __typename?: 'Category', name: string, id: number } };
 
 export type UpdateAdMutationVariables = Exact<{
   data: UpdateAdInput;
@@ -289,6 +296,40 @@ export function useCreateNewAdMutation(baseOptions?: Apollo.MutationHookOptions<
 export type CreateNewAdMutationHookResult = ReturnType<typeof useCreateNewAdMutation>;
 export type CreateNewAdMutationResult = Apollo.MutationResult<CreateNewAdMutation>;
 export type CreateNewAdMutationOptions = Apollo.BaseMutationOptions<CreateNewAdMutation, CreateNewAdMutationVariables>;
+export const CreateNewCategoryDocument = gql`
+    mutation CreateNewCategory($data: CategoryInput!) {
+  createNewCategory(data: $data) {
+    name
+    id
+  }
+}
+    `;
+export type CreateNewCategoryMutationFn = Apollo.MutationFunction<CreateNewCategoryMutation, CreateNewCategoryMutationVariables>;
+
+/**
+ * __useCreateNewCategoryMutation__
+ *
+ * To run a mutation, you first call `useCreateNewCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNewCategoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNewCategoryMutation, { data, loading, error }] = useCreateNewCategoryMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateNewCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateNewCategoryMutation, CreateNewCategoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateNewCategoryMutation, CreateNewCategoryMutationVariables>(CreateNewCategoryDocument, options);
+      }
+export type CreateNewCategoryMutationHookResult = ReturnType<typeof useCreateNewCategoryMutation>;
+export type CreateNewCategoryMutationResult = Apollo.MutationResult<CreateNewCategoryMutation>;
+export type CreateNewCategoryMutationOptions = Apollo.BaseMutationOptions<CreateNewCategoryMutation, CreateNewCategoryMutationVariables>;
 export const UpdateAdDocument = gql`
     mutation UpdateAd($data: UpdateAdInput!) {
   updateAd(data: $data)

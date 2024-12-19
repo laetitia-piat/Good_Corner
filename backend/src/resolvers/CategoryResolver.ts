@@ -1,7 +1,7 @@
-import CategoryInput from "../input/CategoryInput";
 import { Category } from "../entities/Category";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
-import UpdateCategoryInput from "../input/UpdateCategoryInput";
+import { CategoryInput } from "../input/AdInput";
+import { UpdateCategoryInput } from "../input/UpdateAdInput";
 
 @Resolver(Category)
 class CategoryResolver {

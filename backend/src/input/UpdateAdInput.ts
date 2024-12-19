@@ -3,8 +3,25 @@ import { Ad } from "../entities/Ad";
 import { Field, ID, InputType } from "type-graphql";
 import { Tag } from "../entities/Tag";
 import { Picture } from "../entities/Picture";
-import TagInput from "./TagInput";
-import PictureInput from "./PictureInput";
+import { PictureInput, TagInput } from "./AdInput";
+
+@InputType()
+export class UpdateCategoryInput implements Partial<Category> {
+  @Field()
+  id: number;
+
+  @Field()
+  name: string;
+}
+
+@InputType()
+export class UpdateTagInput implements Partial<Tag> {
+  @Field()
+  id: number;
+
+  @Field()
+  name: string;
+}
 
 @InputType()
 class UpdateAdInput implements Partial<Ad> {

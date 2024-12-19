@@ -26,9 +26,7 @@ const AdbyCategory = () => {
               link={`../../ad/${ad.id}`}
               price={ad.price}
               title={ad.title}
-              category={{
-                name: `${ad.category.name}`,
-              }}
+              category={ad.category}
               tags={[]}
               // tags={{
               //   id: ad.tags.id,

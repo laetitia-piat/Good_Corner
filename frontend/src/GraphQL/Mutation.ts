@@ -17,6 +17,14 @@ export const CREATE_NEW_AD = gql`
     }
   }
 `;
+export const CREATE_NEW_CATEGORY = gql`
+  mutation CreateNewCategory($data: CategoryInput!) {
+    createNewCategory(data: $data) {
+      name
+      id
+    }
+  }
+`;
 
 export const UPDATE_AD = gql`
   mutation UpdateAd($data: UpdateAdInput!) {

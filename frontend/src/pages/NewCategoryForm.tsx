@@ -1,41 +1,60 @@
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useCreateNewCategoryMutation } from "../generated/graphql-types"; // Assurez-vous que ce hook existe et est généré.
 
 const NewCategoryFormPage = () => {
   const navigate = useNavigate();
+  const [createNewCategory, { loading }] = useCreateNewCategoryMutation(); // Hook pour la mutation
+
   const notify = () =>
-    toast.success("Categorie ajoutée avec succès !", {
+    toast.success("Catégorie ajoutée avec succès !", {
       position: "top-center",
     });
+
   return (
     <form
       onSubmit={async (e) => {
         e.preventDefault();
-        try {
-          // Read the form data
-          const form = e.target;
-          const formData = new FormData(form as HTMLFormElement);
 
-          // Or you can work with it as a plain object:
+        try {
+          // Récupérer les données du formulaire
+          const form = e.target as HTMLFormElement;
+          const formData = new FormData(form);
+
+          // Convertir les données du formulaire en objet JSON
           const formJson = Object.fromEntries(formData.entries());
-          await axios.post("http://localhost:3000/categories/", formJson);
-          toast.success("Ad has been added", { position: "top-center" });
-          navigate("/");
+
+          // Exécuter la mutation GraphQL
+          const { data } = await createNewCategory({
+            variables: {
+              data: {
+                name: formJson.name as string, // Assurez-vous que la clé correspond au schéma GraphQL
+              },
+            },
+          });
+
+          if (data?.createNewCategory?.id) {
+            notify(); // Notifier en cas de succès
+            navigate("/"); // Rediriger l'utilisateur
+          } else {
+            throw new Error("Création de la catégorie échouée.");
+          }
         } catch (err) {
-          console.log(err);
-          toast.error("An error occured");
+          console.error(err);
+          toast.error(
+            "Une erreur s'est produite lors de l'ajout de la catégorie."
+          );
         }
       }}
     >
       <label>
         Titre de la catégorie:
         <br />
-        <input className="text-field" type="text" name="name" />
+        <input className="text-field" type="text" name="name" required />
       </label>
-      <button className="button" onClick={notify}>
-        Submit
+      <button className="button" type="submit" disabled={loading}>
+        {loading ? "Chargement..." : "Submit"}
       </button>
       <ToastContainer />
     </form>
