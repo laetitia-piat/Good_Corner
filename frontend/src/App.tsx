@@ -11,6 +11,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TestNewAdForm from "./pages/NewAdForm";
 import AdTagsFetch from "./components/AdTagsFetch";
+import SingleFileUploader from "./pages/TestFileUpload";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="category/new" element={<NewCategoryFormPage />} />
           <Route path="category/:name" element={<AdbyCategory />} />
           <Route path="test" element={<AdTagsFetch />} />
+          <Route path="testimg" element={<SingleFileUploader />} />
         </Route>
       </Routes>
       <ToastContainer />

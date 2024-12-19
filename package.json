@@ -1,5 +1,10 @@
 {
   "dependencies": {
-    "pg": "^8.13.1"
+    "axios": "^1.7.9",
+    "pg": "^8.13.1",
+    "react-router-dom": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/react-toastify": "^4.0.2"
   }
 }
