@@ -222,7 +222,7 @@ const CreateOrUpdateAdForm = ({
           <>
             <br />
             <button
-              className="button"
+              className="button-Add-Image"
               type="button"
               onClick={() => append({ url: "" })}
             >
@@ -342,15 +342,17 @@ const CreateOrUpdateAdForm = ({
             />
           </>
           <br />
-          <>
-            {data.getAllTags.map((tag) => (
-              <label key={tag.id}>
-                <input type="checkbox" value={tag.id} {...register("tags")} />
-                {tag.name}
-              </label>
-            ))}
-          </>
 
+          <div className="text-field">
+            <>
+              {data.getAllTags.map((tag) => (
+                <label key={tag.id}>
+                  <input type="checkbox" value={tag.id} {...register("tags")} />
+                  {tag.name}
+                </label>
+              ))}
+            </>
+          </div>
           <input type="submit" className="button" />
         </form>
       </>

@@ -50,6 +50,7 @@ h1 {
 
 .button {
   min-width: 40px;
+  margin: auto;
   height: 40px;
   padding: 8px;
   border-radius: 8px;
@@ -153,7 +154,7 @@ h1 {
   margin-top: 15px;
 }
 .form-new-ad .text-field {
-  width: 80%;
+  width: 100%;
   margin: auto;
 }
 

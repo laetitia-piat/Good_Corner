@@ -16,7 +16,6 @@ const AdDetails = () => {
     return (
       <>
         <Header />
-        <p>TEST</p>
         <div>
           <h2 className="ad-details-title">{data.getAdById.title}</h2>
           <section className="ad-details">
