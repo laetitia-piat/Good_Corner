@@ -2,17 +2,20 @@ import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import ButtonDelete from "../components/ButtonDelete";
 import { useGetAdByIdQuery } from "../generated/graphql-types";
+import { useState } from "react";
 
 const AdDetails = () => {
   const { id }: any = useParams();
   const { loading, error, data } = useGetAdByIdQuery({
     variables: { getAdByIdId: parseInt(id) },
   });
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :</p>;
   console.log(data);
   if (data) {
+    const mainImage = activeImage || data.getAdById.pictures[0]?.url;
     return (
       <>
         <Header />
@@ -20,25 +23,25 @@ const AdDetails = () => {
           <h2 className="ad-details-title">{data.getAdById.title}</h2>
           <section className="ad-details">
             <div className="ad-details-image-container">
-              {/* Image principale en grand */}
+              {/* Image principale */}
               <img
                 className="ad-details-main-image"
-                src={data.getAdById.pictures[0]?.url}
-                alt="Main Ad"
+                src={mainImage}
+                alt="Main"
               />
-
-              {/* Images secondaires plus petites */}
-              <div className="ad-details-thumbnail-container">
-                {data.getAdById.pictures
-                  .slice(1)
-                  .map((picture: any, index: any) => (
-                    <img
-                      key={index}
-                      className="ad-details-thumbnail"
-                      src={picture.url}
-                      alt={`Thumbnail ${index + 1}`}
-                    />
-                  ))}
+              {/* Miniatures */}
+              <div className="ad-details-thumbnails">
+                {data.getAdById.pictures.map((picture: any, index: any) => (
+                  <img
+                    key={index}
+                    className={`ad-details-thumbnail ${
+                      picture.url === mainImage ? "active" : ""
+                    }`}
+                    src={picture.url}
+                    alt={`Thumbnail ${index}`}
+                    onClick={() => setActiveImage(picture.url)} // Mettre à jour l'image principale
+                  />
+                ))}
               </div>
             </div>
             <div className="ad-details-info">
