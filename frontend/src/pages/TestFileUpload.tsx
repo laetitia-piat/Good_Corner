@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 const SingleFileUploader = () => {
   const [file, setFile] = useState<File | null>(null);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0]);

@@ -4,6 +4,7 @@ import { Fragment } from "react/jsx-runtime";
 import { useGetAllCategoriesAndTagsQuery } from "../generated/graphql-types";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 const CreateOrUpdateAdForm = ({
   defaultValues,
@@ -31,6 +32,7 @@ const CreateOrUpdateAdForm = ({
   const {
     register,
     handleSubmit,
+    setValue,
     control,
     formState: { errors },
   } = useForm<Inputs>({
@@ -235,6 +237,28 @@ const CreateOrUpdateAdForm = ({
                   <div key={field.id}>
                     <section className="image-input-and-remove">
                       <input
+                        id="file"
+                        type="file"
+                        className="text-field"
+                        onChange={async (
+                          e: React.ChangeEvent<HTMLInputElement>
+                        ) => {
+                          if (e.target.files) {
+                            const formData = new FormData();
+                            formData.append("file", e.target.files[0]);
+                            try {
+                              const result = await axios.post("/img", formData);
+                              setValue(
+                                `pictures.${index}.url`,
+                                result.data.filename
+                              );
+                            } catch (error) {
+                              console.error(error);
+                            }
+                          }
+                        }}
+                      />
+                      <input
                         className="text-field"
                         placeholder="Your image url"
                         {...register(`pictures.${index}.url` as const)}
@@ -342,18 +366,26 @@ const CreateOrUpdateAdForm = ({
             />
           </>
           <br />
-
-          <div className="text-field">
-            <>
-              {data.getAllTags.map((tag) => (
-                <label key={tag.id}>
-                  <input type="checkbox" value={tag.id} {...register("tags")} />
-                  {tag.name}
-                </label>
-              ))}
-            </>
-          </div>
-          <input type="submit" className="button" />
+          <label>
+            <br />
+            Tags :
+            <br />
+            <div className="text-field">
+              <>
+                {data.getAllTags.map((tag: any) => (
+                  <label key={tag.id}>
+                    <input
+                      type="checkbox"
+                      value={tag.id}
+                      {...register("tags")}
+                    />
+                    {tag.name}
+                  </label>
+                ))}
+              </>
+            </div>
+          </label>
+          <input type="submit" className="button" id="validate" />
         </form>
       </>
     );

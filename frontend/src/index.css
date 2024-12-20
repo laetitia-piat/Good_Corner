@@ -41,6 +41,8 @@ h1 {
   padding: 16px 10px 6px;
   white-space: nowrap;
   overflow-x: scroll;
+  display: flex;
+  justify-content: space-between;
 }
 
 .category-navigation-link {
@@ -50,7 +52,6 @@ h1 {
 
 .button {
   min-width: 40px;
-  margin: auto;
   height: 40px;
   padding: 8px;
   border-radius: 8px;
@@ -64,6 +65,11 @@ h1 {
   color: #ffa41b;
   background-color: white;
   cursor: pointer;
+}
+#validate {
+  max-width: 100px;
+  margin: auto;
+  margin-top: 10px;
 }
 .ad-details-tags {
   display: flex;
@@ -293,7 +299,7 @@ h1 {
   transform: scale(1.1);
 }
 
-@media screen and (min-width: 720px) {
+@media screen and (max-width: 720px) {
   .mobile-short-label {
     display: none;
   }
@@ -303,8 +309,6 @@ h1 {
 
   .categories-navigation {
     padding-top: 14px;
-    display: flex;
-    justify-content: space-between;
   }
 
   .ad-details-image-container {
