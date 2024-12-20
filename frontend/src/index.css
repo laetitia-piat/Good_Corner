@@ -253,9 +253,22 @@ h1 {
   display: grid;
   gap: 24px;
 }
-.image-input-and-remove {
+.field-image-input-and-remove {
   display: flex;
-  margin-bottom: 10px;
+}
+.field-image-input-and-remove div {
+  display: flex;
+}
+.image-input-and-remove {
+  margin: 5px 10px;
+  max-width: 180px;
+}
+
+.image-input-and-remove img {
+  max-width: 100px;
+}
+.image-input-and-remove button {
+  margin: auto;
 }
 
 /* Conteneur principal */
@@ -299,7 +312,7 @@ h1 {
   transform: scale(1.1);
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (min-width: 720px) {
   .mobile-short-label {
     display: none;
   }

@@ -33,6 +33,8 @@ const CreateOrUpdateAdForm = ({
     register,
     handleSubmit,
     setValue,
+    getValues,
+    watch,
     control,
     formState: { errors },
   } = useForm<Inputs>({
@@ -44,6 +46,8 @@ const CreateOrUpdateAdForm = ({
     control,
     name: "pictures",
   });
+
+  watch("pictures");
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log("data from react hook form", data);
@@ -104,7 +108,7 @@ const CreateOrUpdateAdForm = ({
             <label>
               Description:
               <br />
-              <input
+              <textarea
                 className="text-field"
                 {...register("description", {
                   minLength: { value: 10, message: "Minimum 10 characters" },
@@ -231,37 +235,46 @@ const CreateOrUpdateAdForm = ({
               Add Image
             </button>
             <br />
-            <div className="field">
+            <div className="field-image-input-and-remove">
               {fields.map((field, index) => {
                 return (
                   <div key={field.id}>
                     <section className="image-input-and-remove">
-                      <input
-                        id="file"
-                        type="file"
-                        className="text-field"
-                        onChange={async (
-                          e: React.ChangeEvent<HTMLInputElement>
-                        ) => {
-                          if (e.target.files) {
-                            const formData = new FormData();
-                            formData.append("file", e.target.files[0]);
-                            try {
-                              const result = await axios.post("/img", formData);
-                              setValue(
-                                `pictures.${index}.url`,
-                                result.data.filename
-                              );
-                            } catch (error) {
-                              console.error(error);
+                      {getValues(`pictures.${index}.url`) ? (
+                        <img src={getValues(`pictures.${index}.url`)} />
+                      ) : (
+                        <input
+                          id="file"
+                          type="file"
+                          className="text-field"
+                          onChange={async (
+                            e: React.ChangeEvent<HTMLInputElement>
+                          ) => {
+                            if (e.target.files) {
+                              const formData = new FormData();
+                              formData.append("file", e.target.files[0]);
+                              try {
+                                const result = await axios.post(
+                                  "/img",
+                                  formData
+                                );
+                                setValue(
+                                  `pictures.${index}.url`,
+                                  result.data.filename
+                                );
+                              } catch (error) {
+                                console.error(error);
+                              }
                             }
-                          }
-                        }}
-                      />
+                          }}
+                        />
+                      )}
+
                       <input
                         className="text-field"
                         placeholder="Your image url"
                         {...register(`pictures.${index}.url` as const)}
+                        type="hidden"
                       />
                       <button className="button" onClick={() => remove(index)}>
                         Remove
