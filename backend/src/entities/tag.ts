@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Field, ObjectType } from "type-graphql";
-import { Ad } from "./Ad";
+import { Ad } from "./ad";
 
 @ObjectType()
 @Entity()

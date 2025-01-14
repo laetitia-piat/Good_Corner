@@ -1,5 +1,5 @@
 import { UpdateTagInput } from "../input/UpdateAdInput";
-import { Tag } from "../entities/Tag";
+import { Tag } from "../entities/tag";
 import { Arg, Mutation, Query, Resolver } from "type-graphql";
 
 @Resolver(Tag)

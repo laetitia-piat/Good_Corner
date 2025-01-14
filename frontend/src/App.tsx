@@ -12,6 +12,8 @@ import "react-toastify/dist/ReactToastify.css";
 import TestNewAdForm from "./pages/NewAdForm";
 import AdTagsFetch from "./components/AdTagsFetch";
 import SingleFileUploader from "./pages/TestFileUpload";
+import LoginPage from "./pages/Login";
+import RegisterPage from "./pages/Register";
 
 const App = () => {
   return (
@@ -28,6 +30,8 @@ const App = () => {
           <Route path="category/:name" element={<AdbyCategory />} />
           <Route path="test" element={<AdTagsFetch />} />
           <Route path="testimg" element={<SingleFileUploader />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="register" element={<RegisterPage />} />
         </Route>
       </Routes>
       <ToastContainer />

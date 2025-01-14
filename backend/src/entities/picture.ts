@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Ad } from "./Ad";
+import { Ad } from "./ad";
 import { Field, ObjectType } from "type-graphql";
 
 @ObjectType()

@@ -1,6 +1,6 @@
 import AdInput from "../input/AdInput";
-import { Ad } from "../entities/Ad";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Ad } from "../entities/ad";
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import UpdateAdInput from "../input/UpdateAdInput";
 import { Like } from "typeorm";
 
@@ -72,8 +72,10 @@ class AdResolver {
     return ads;
   }
 
+  @Authorized()
   @Mutation(() => Ad)
-  async createNewAd(@Arg("data") newAdData: AdInput) {
+  async createNewAd(@Arg("data") newAdData: AdInput, @Ctx() context: any) {
+    console.log("context of create new ad mutation", context);
     const newAdToSave = Ad.create({
       ...newAdData,
     });

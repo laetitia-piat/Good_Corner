@@ -2,10 +2,10 @@ import express from "express";
 import "reflect-metadata";
 import cors from "cors";
 import { dataSourceGoodCorner } from "./config/db";
-import { Ad } from "./entities/Ad";
-import { Category } from "./entities/Category";
+import { Ad } from "./entities/ad";
+import { Category } from "./entities/category";
 import { validate } from "class-validator";
-import { Tag } from "./entities/Tag";
+import { Tag } from "./entities/tag";
 import { Like } from "typeorm";
 
 const app = express();

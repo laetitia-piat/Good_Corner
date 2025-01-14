@@ -9,10 +9,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Category } from "./Category";
-import { Picture } from "./Picture";
+import { Category } from "./category";
+import { Picture } from "./picture";
 import { Field, ObjectType } from "type-graphql";
-import { Tag } from "./Tag";
+import { Tag } from "./tag";
+import { User } from "./user";
 
 @ObjectType()
 @Entity()
@@ -65,4 +66,9 @@ export class Ad extends BaseEntity {
   @ManyToMany(() => Tag, (tag) => tag.ads, { eager: true })
   @JoinTable()
   tags: Tag[];
+
+  @Field(() => [User])
+  @ManyToMany(() => User, (user) => user.ads, { eager: true })
+  @JoinTable()
+  users: User[];
 }

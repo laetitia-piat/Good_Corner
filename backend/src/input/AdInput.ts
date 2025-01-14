@@ -1,8 +1,8 @@
-import { Category } from "../entities/Category";
+import { Category } from "../entities/category";
 import { Field, ID, InputType } from "type-graphql";
-import { Picture } from "../entities/Picture";
-import { Tag } from "../entities/Tag";
-import { Ad } from "../entities/Ad";
+import { Picture } from "../entities/picture";
+import { Tag } from "../entities/tag";
+import { Ad } from "../entities/ad";
 
 @InputType()
 export class PictureInput implements Partial<Picture> {

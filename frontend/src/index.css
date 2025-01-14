@@ -311,7 +311,23 @@ h1 {
 .ad-details-thumbnail:hover {
   transform: scale(1.1);
 }
-
+.loginForm {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.loginForm h1 {
+  margin: 50px 0;
+}
+.loginForm .text-field {
+  min-width: 400px;
+  margin: 30px 0;
+}
+.loginForm .button {
+  margin-top: 50px;
+  max-width: 200px;
+}
 @media screen and (min-width: 720px) {
   .mobile-short-label {
     display: none;
