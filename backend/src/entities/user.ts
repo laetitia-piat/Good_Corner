@@ -2,7 +2,7 @@ import {
   BaseEntity,
   Column,
   Entity,
-  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Ad } from "./ad";
@@ -18,6 +18,6 @@ export class User extends BaseEntity {
   @Column()
   hashedPassword: string;
 
-  @ManyToMany(() => Ad, (ad) => ad.users)
+  @OneToMany(() => Ad, (ad) => ad.user)
   ads: Ad[];
 }
