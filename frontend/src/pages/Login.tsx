@@ -18,9 +18,7 @@ const LoginPage = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     login({
       variables: { data: { email: data.login, password: data.password } },
-      onCompleted: (result) => {
-        console.log(result);
-        localStorage.setItem("token", result.login);
+      onCompleted: () => {
         navigate("/");
       },
       onError: (error) => {

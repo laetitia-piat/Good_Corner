@@ -24,6 +24,7 @@ const CreateOrUpdateAdForm = ({
     createdAt: string;
     category: string;
     tags: string[];
+    user: { email: string; __typename?: string };
     __typename?: string;
   };
 
@@ -49,6 +50,7 @@ const CreateOrUpdateAdForm = ({
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     delete data.__typename;
+    delete data.user.__typename;
     data.pictures = data.pictures.map((el) => ({
       url: el.url,
     }));
@@ -58,7 +60,7 @@ const CreateOrUpdateAdForm = ({
       createdAt: data.createdAt + "T00:00:00.000Z",
       tags: data.tags ? data.tags.map((el) => ({ id: parseInt(el) })) : [],
     };
-
+    console.log(data);
     await submitToBackend({ variables: { data: dataForBackend } });
     toast.success("Succes");
     navigate("/");

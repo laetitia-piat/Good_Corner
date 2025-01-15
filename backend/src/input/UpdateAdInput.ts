@@ -4,6 +4,7 @@ import { Field, ID, InputType } from "type-graphql";
 import { Tag } from "../entities/tag";
 import { Picture } from "../entities/picture";
 import { PictureInput, TagInput } from "./AdInput";
+import { User } from "../entities/user";
 
 @InputType()
 export class UpdateCategoryInput implements Partial<Category> {
@@ -43,9 +44,6 @@ class UpdateAdInput implements Partial<Ad> {
   @Field({ nullable: true })
   createdAt: string;
 
-  @Field({ nullable: true })
-  email: string;
-
   @Field(() => [PictureInput], { nullable: true })
   pictures?: Picture[];
 
@@ -54,6 +52,9 @@ class UpdateAdInput implements Partial<Ad> {
 
   @Field(() => [TagInput], { nullable: true })
   tags?: Tag[] | undefined;
+
+  @Field(() => ID, { nullable: true })
+  user: User;
 }
 
 export default UpdateAdInput;

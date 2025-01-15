@@ -177,7 +177,6 @@ export type UpdateAdInput = {
   category?: InputMaybe<Scalars['ID']['input']>;
   createdAt?: InputMaybe<Scalars['String']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  email?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['Float']['input'];
   location?: InputMaybe<Scalars['String']['input']>;
   pictures?: InputMaybe<Array<PictureInput>>;
