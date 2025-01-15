@@ -9,7 +9,6 @@ export type AdCardProps = {
   link: string;
   createdAt: string;
   email: string;
-  owner: string;
   location: string;
   //tags: [];
 };
@@ -21,7 +20,6 @@ const AdCardDetails = ({
   price,
   createdAt,
   email,
-  owner,
 }: AdCardProps) => (
   <div>
     <h2 className="ad-details-title">{title}</h2>
@@ -34,7 +32,7 @@ const AdCardDetails = ({
         <div className="ad-details-description">{description}</div>
         <hr className="separator" />
         <div className="ad-details-owner">
-          Annoncée publiée par <b>{owner}</b>{" "}
+          Annoncée publiée par <b>{}</b>{" "}
           {new Date(createdAt as string).toDateString()}.
         </div>
         <a

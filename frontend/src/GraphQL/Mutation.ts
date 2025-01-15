@@ -6,8 +6,6 @@ export const CREATE_NEW_AD = gql`
       id
       title
       description
-      owner
-      email
       price
       location
       createdAt
@@ -35,5 +33,11 @@ export const UPDATE_AD = gql`
 export const DELETE_AD = gql`
   mutation DeleteAdById($deleteAdByIdId: Float!) {
     deleteAdById(id: $deleteAdByIdId)
+  }
+`;
+
+export const REGISTER = gql`
+  mutation Register($data: UserInput!) {
+    register(data: $data)
   }
 `;

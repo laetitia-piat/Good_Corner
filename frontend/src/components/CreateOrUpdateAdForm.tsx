@@ -18,8 +18,6 @@ const CreateOrUpdateAdForm = ({
   type Inputs = {
     title: string;
     description: string;
-    owner: string;
-    email: string;
     price: string;
     pictures: { url: string; __typename?: string }[];
     location: string;
@@ -50,7 +48,6 @@ const CreateOrUpdateAdForm = ({
   watch("pictures");
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log("data from react hook form", data);
     delete data.__typename;
     data.pictures = data.pictures.map((el) => ({
       url: el.url,
@@ -119,66 +116,6 @@ const CreateOrUpdateAdForm = ({
             <ErrorMessage
               errors={errors}
               name="description"
-              render={({ messages }) =>
-                messages &&
-                Object.entries(messages).map(([type, message]) => {
-                  console.log(message);
-                  return (
-                    <Fragment key={type}>
-                      <br />
-                      <span className="error-message">{message}</span>
-                    </Fragment>
-                  );
-                })
-              }
-            />
-          </>
-          <br />
-          <>
-            <label>
-              Vendeur:
-              <br />
-              <input
-                className="text-field"
-                {...register("owner", {
-                  minLength: { value: 2, message: "Minimum 2 characters" },
-                  required: "This field is required",
-                })}
-              />
-            </label>
-            <ErrorMessage
-              errors={errors}
-              name="owner"
-              render={({ messages }) =>
-                messages &&
-                Object.entries(messages).map(([type, message]) => {
-                  console.log(message);
-                  return (
-                    <Fragment key={type}>
-                      <br />
-                      <span className="error-message">{message}</span>
-                    </Fragment>
-                  );
-                })
-              }
-            />
-          </>
-          <br />
-          <>
-            <label>
-              Email:
-              <br />
-              <input
-                className="text-field"
-                {...register("email", {
-                  minLength: { value: 2, message: "Minimum 2 characters" },
-                  required: "This field is required",
-                })}
-              />
-            </label>
-            <ErrorMessage
-              errors={errors}
-              name="email"
               render={({ messages }) =>
                 messages &&
                 Object.entries(messages).map(([type, message]) => {

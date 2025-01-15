@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
-
+  const isLogged = localStorage.getItem("token") ? true : false;
+  console.log("isLogged", isLogged);
   return (
     <header className="header">
       <div className="main-menu">
@@ -48,10 +49,30 @@ const Header = () => {
             </svg>
           </button>
         </form>
-        <Link to="/ad/new" className="button link-button">
-          <span className="mobile-short-label">Publier</span>
-          <span className="desktop-long-label">Publier une annonce</span>
-        </Link>
+        {isLogged ? (
+          <>
+            <Link to="/ad/new" className="button link-button">
+              <span className="mobile-short-label">Publier</span>
+              <span className="desktop-long-label">Publier une annonce</span>
+            </Link>
+            <button
+              className="button link-button"
+              onClick={() => {
+                localStorage.removeItem("token");
+                navigate("/");
+              }}
+            >
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="button link-button">
+              <span className="mobile-short-label">Login</span>
+              <span className="desktop-long-label">Login</span>
+            </Link>
+          </>
+        )}
       </div>
       <CategoryList />
     </header>

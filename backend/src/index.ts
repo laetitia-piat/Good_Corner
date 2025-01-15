@@ -38,7 +38,6 @@ const start = async () => {
       const token = req.headers.authorization?.split("Bearer ")[1];
       if (token !== undefined) {
         const payload = jwt.verify(token, process.env.JWT_SECRET_KEY as Secret);
-        console.log("payload", payload);
         if (payload) {
           console.log("payload was found and returned to resolver");
           return payload;

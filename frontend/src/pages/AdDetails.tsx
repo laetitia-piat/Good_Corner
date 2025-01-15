@@ -51,7 +51,7 @@ const AdDetails = () => {
               </div>
               <hr className="separator" />
               <div className="ad-details-owner">
-                Annoncée publiée par <b>{data.getAdById.owner}</b>{" "}
+                Annoncée publiée par <b>{data.getAdById.user.email}</b>{" "}
                 {new Date(data.getAdById.createdAt as string).toDateString()}.
               </div>
               <div className="ad-details-tags">
@@ -60,7 +60,7 @@ const AdDetails = () => {
                 ))}
               </div>
               <a
-                href={`mailto:${data.getAdById.email}`}
+                href={`mailto:${data.getAdById.user.email}`}
                 className="button button-primary link-button"
               >
                 <svg

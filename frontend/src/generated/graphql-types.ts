@@ -22,23 +22,20 @@ export type Ad = {
   category?: Maybe<Category>;
   createdAt: Scalars['String']['output'];
   description: Scalars['String']['output'];
-  email: Scalars['String']['output'];
   id: Scalars['Float']['output'];
   location: Scalars['String']['output'];
-  owner: Scalars['String']['output'];
   pictures: Array<Picture>;
   price: Scalars['Float']['output'];
   tags: Array<Tag>;
   title: Scalars['String']['output'];
+  user: User;
 };
 
 export type AdInput = {
   category?: InputMaybe<Scalars['ID']['input']>;
   createdAt: Scalars['String']['input'];
   description: Scalars['String']['input'];
-  email: Scalars['String']['input'];
   location: Scalars['String']['input'];
-  owner: Scalars['String']['input'];
   pictures?: InputMaybe<Array<PictureInput>>;
   price: Scalars['Float']['input'];
   tags?: InputMaybe<Array<TagInput>>;
@@ -183,7 +180,6 @@ export type UpdateAdInput = {
   email?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['Float']['input'];
   location?: InputMaybe<Scalars['String']['input']>;
-  owner?: InputMaybe<Scalars['String']['input']>;
   pictures?: InputMaybe<Array<PictureInput>>;
   price?: InputMaybe<Scalars['Float']['input']>;
   tags?: InputMaybe<Array<TagInput>>;
@@ -200,6 +196,13 @@ export type UpdateTagInput = {
   name: Scalars['String']['input'];
 };
 
+export type User = {
+  __typename?: 'User';
+  ads: Array<Ad>;
+  email: Scalars['String']['output'];
+  id: Scalars['Float']['output'];
+};
+
 export type UserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -210,7 +213,7 @@ export type CreateNewAdMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewAdMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, description: string, owner: string, email: string, price: number, location: string, createdAt: string, pictures: Array<{ __typename?: 'Picture', url: string }> } };
+export type CreateNewAdMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: string, pictures: Array<{ __typename?: 'Picture', url: string }> } };
 
 export type CreateNewCategoryMutationVariables = Exact<{
   data: CategoryInput;
@@ -233,12 +236,19 @@ export type DeleteAdByIdMutationVariables = Exact<{
 
 export type DeleteAdByIdMutation = { __typename?: 'Mutation', deleteAdById: string };
 
+export type RegisterMutationVariables = Exact<{
+  data: UserInput;
+}>;
+
+
+export type RegisterMutation = { __typename?: 'Mutation', register: string };
+
 export type GetAdsByCategoryQueryVariables = Exact<{
   categoryName: Scalars['String']['input'];
 }>;
 
 
-export type GetAdsByCategoryQuery = { __typename?: 'Query', getAdsByCategory: Array<{ __typename?: 'Ad', id: number, title: string, description: string, owner: string, email: string, price: number, location: string, createdAt: string, category?: { __typename?: 'Category', id: number, name: string } | null, pictures: Array<{ __typename?: 'Picture', url: string }>, tags: Array<{ __typename?: 'Tag', id: number, name: string }> }> };
+export type GetAdsByCategoryQuery = { __typename?: 'Query', getAdsByCategory: Array<{ __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: string, user: { __typename?: 'User', email: string }, category?: { __typename?: 'Category', id: number, name: string } | null, pictures: Array<{ __typename?: 'Picture', url: string }>, tags: Array<{ __typename?: 'Tag', id: number, name: string }> }> };
 
 export type GetAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -248,14 +258,14 @@ export type GetAllCategoryQuery = { __typename?: 'Query', getAllCategories: Arra
 export type GetAllAdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: number, title: string, description: string, owner: string, email: string, price: number, location: string, createdAt: string, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', id: number, name: string }> }> };
+export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: string, user: { __typename?: 'User', email: string }, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', id: number, name: string }> }> };
 
 export type GetAdByIdQueryVariables = Exact<{
   getAdByIdId: Scalars['Float']['input'];
 }>;
 
 
-export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, owner: string, email: string, price: number, location: string, createdAt: string, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', id: number, name: string }> } };
+export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: string, user: { __typename?: 'User', email: string }, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', id: number, name: string }> } };
 
 export type GetAllCategoriesAndTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -267,7 +277,7 @@ export type GetAdsByKeyWordQueryVariables = Exact<{
 }>;
 
 
-export type GetAdsByKeyWordQuery = { __typename?: 'Query', getAdsByKeyWord: Array<{ __typename?: 'Ad', id: number, title: string, description: string, owner: string, email: string, price: number, location: string, createdAt: string, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', name: string }> }> };
+export type GetAdsByKeyWordQuery = { __typename?: 'Query', getAdsByKeyWord: Array<{ __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: string, user: { __typename?: 'User', email: string }, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', name: string }> }> };
 
 export type LoginQueryVariables = Exact<{
   data: UserInput;
@@ -283,8 +293,6 @@ export const CreateNewAdDocument = gql`
     id
     title
     description
-    owner
-    email
     price
     location
     createdAt
@@ -416,15 +424,47 @@ export function useDeleteAdByIdMutation(baseOptions?: Apollo.MutationHookOptions
 export type DeleteAdByIdMutationHookResult = ReturnType<typeof useDeleteAdByIdMutation>;
 export type DeleteAdByIdMutationResult = Apollo.MutationResult<DeleteAdByIdMutation>;
 export type DeleteAdByIdMutationOptions = Apollo.BaseMutationOptions<DeleteAdByIdMutation, DeleteAdByIdMutationVariables>;
+export const RegisterDocument = gql`
+    mutation Register($data: UserInput!) {
+  register(data: $data)
+}
+    `;
+export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+
+/**
+ * __useRegisterMutation__
+ *
+ * To run a mutation, you first call `useRegisterMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRegisterMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [registerMutation, { data, loading, error }] = useRegisterMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+      }
+export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
+export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const GetAdsByCategoryDocument = gql`
     query getAdsByCategory($categoryName: String!) {
   getAdsByCategory(categoryName: $categoryName) {
     id
     title
     description
-    owner
-    email
     price
+    user {
+      email
+    }
     location
     createdAt
     category {
@@ -520,9 +560,10 @@ export const GetAllAdsDocument = gql`
     id
     title
     description
-    owner
-    email
     price
+    user {
+      email
+    }
     pictures {
       url
     }
@@ -576,9 +617,10 @@ export const GetAdByIdDocument = gql`
     id
     title
     description
-    owner
-    email
     price
+    user {
+      email
+    }
     pictures {
       url
     }
@@ -677,9 +719,10 @@ export const GetAdsByKeyWordDocument = gql`
     id
     title
     description
-    owner
-    email
     price
+    user {
+      email
+    }
     pictures {
       url
     }

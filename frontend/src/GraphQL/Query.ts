@@ -6,9 +6,10 @@ export const byCategory = gql`
       id
       title
       description
-      owner
-      email
       price
+      user {
+        email
+      }
       location
       createdAt
       category {
@@ -41,9 +42,10 @@ export const allAds = gql`
       id
       title
       description
-      owner
-      email
       price
+      user {
+        email
+      }
       pictures {
         url
       }
@@ -66,9 +68,10 @@ export const AdByIdDetails = gql`
       id
       title
       description
-      owner
-      email
       price
+      user {
+        email
+      }
       pictures {
         url
       }
@@ -104,9 +107,10 @@ export const GET_ADS_BY_KEYWORD = gql`
       id
       title
       description
-      owner
-      email
       price
+      user {
+        email
+      }
       pictures {
         url
       }

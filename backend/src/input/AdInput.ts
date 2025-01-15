@@ -31,9 +31,6 @@ class AdInput implements Partial<Ad> {
   description: string;
 
   @Field()
-  owner: string;
-
-  @Field()
   price: number;
 
   @Field()
@@ -41,9 +38,6 @@ class AdInput implements Partial<Ad> {
 
   @Field()
   createdAt: string;
-
-  @Field()
-  email: string;
 
   @Field(() => [PictureInput], { nullable: true })
   pictures?: Picture[];

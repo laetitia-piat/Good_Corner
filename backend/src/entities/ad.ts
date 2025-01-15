@@ -33,14 +33,6 @@ export class Ad extends BaseEntity {
 
   @Field()
   @Column()
-  owner: string;
-
-  @Field()
-  @Column()
-  email: string;
-
-  @Field()
-  @Column()
   price: number;
 
   @Field(() => [Picture])
@@ -67,6 +59,7 @@ export class Ad extends BaseEntity {
   @JoinTable()
   tags: Tag[];
 
+  @Field(() => User)
   @ManyToOne(() => User, (user) => user.ads, { eager: true })
   user: User;
 }
