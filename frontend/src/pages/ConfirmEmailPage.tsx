@@ -20,7 +20,7 @@ const ConfirmEmailPage = () => {
     confirmEmail({
       variables: { codeByUser: data.code },
       onCompleted: () => {
-        navigate("/");
+        navigate("/login");
 
         toast.success("Email was confirmed, please login");
       },
