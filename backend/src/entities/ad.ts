@@ -2,6 +2,7 @@ import { MinLength } from "class-validator";
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
@@ -47,8 +48,8 @@ export class Ad extends BaseEntity {
   location: string;
 
   @Field()
-  @Column()
-  createdAt: string;
+  @CreateDateColumn()
+  createdAt: Date;
 
   @Field(() => Category, { nullable: true })
   @ManyToOne(() => Category, (category) => category.ads, { eager: true })

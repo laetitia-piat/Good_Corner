@@ -15,12 +15,13 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  DateTimeISO: { input: any; output: any; }
 };
 
 export type Ad = {
   __typename?: 'Ad';
   category?: Maybe<Category>;
-  createdAt: Scalars['String']['output'];
+  createdAt: Scalars['DateTimeISO']['output'];
   description: Scalars['String']['output'];
   id: Scalars['Float']['output'];
   location: Scalars['String']['output'];
@@ -33,7 +34,6 @@ export type Ad = {
 
 export type AdInput = {
   category?: InputMaybe<Scalars['ID']['input']>;
-  createdAt: Scalars['String']['input'];
   description: Scalars['String']['input'];
   location: Scalars['String']['input'];
   pictures?: InputMaybe<Array<PictureInput>>;
@@ -59,6 +59,8 @@ export type Mutation = {
   deleteAdById: Scalars['String']['output'];
   deleteCategory: Scalars['String']['output'];
   deleteTag: Scalars['String']['output'];
+  login: Scalars['String']['output'];
+  logout: Scalars['String']['output'];
   register: Scalars['String']['output'];
   updateAd: Scalars['String']['output'];
   updateCategory: Scalars['String']['output'];
@@ -88,6 +90,11 @@ export type MutationDeleteCategoryArgs = {
 
 export type MutationDeleteTagArgs = {
   id: Scalars['Float']['input'];
+};
+
+
+export type MutationLoginArgs = {
+  data: UserInput;
 };
 
 
@@ -130,7 +137,7 @@ export type Query = {
   getAllTags: Array<Tag>;
   getCategoryById: Category;
   getTagById: Tag;
-  login: Scalars['String']['output'];
+  getUserInfo: UserInfo;
 };
 
 
@@ -158,11 +165,6 @@ export type QueryGetTagByIdArgs = {
   id: Scalars['Float']['input'];
 };
 
-
-export type QueryLoginArgs = {
-  data: UserInput;
-};
-
 export type Tag = {
   __typename?: 'Tag';
   id: Scalars['Float']['output'];
@@ -175,7 +177,7 @@ export type TagInput = {
 
 export type UpdateAdInput = {
   category?: InputMaybe<Scalars['ID']['input']>;
-  createdAt?: InputMaybe<Scalars['String']['input']>;
+  createdAt?: InputMaybe<Scalars['DateTimeISO']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['Float']['input'];
   location?: InputMaybe<Scalars['String']['input']>;
@@ -202,6 +204,12 @@ export type User = {
   id: Scalars['Float']['output'];
 };
 
+export type UserInfo = {
+  __typename?: 'UserInfo';
+  email?: Maybe<Scalars['String']['output']>;
+  isLoggedIn: Scalars['Boolean']['output'];
+};
+
 export type UserInput = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
@@ -212,7 +220,7 @@ export type CreateNewAdMutationVariables = Exact<{
 }>;
 
 
-export type CreateNewAdMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: string, pictures: Array<{ __typename?: 'Picture', url: string }> } };
+export type CreateNewAdMutation = { __typename?: 'Mutation', createNewAd: { __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, pictures: Array<{ __typename?: 'Picture', url: string }> } };
 
 export type CreateNewCategoryMutationVariables = Exact<{
   data: CategoryInput;
@@ -242,12 +250,24 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: string };
 
+export type LoginMutationVariables = Exact<{
+  data: UserInput;
+}>;
+
+
+export type LoginMutation = { __typename?: 'Mutation', login: string };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: string };
+
 export type GetAdsByCategoryQueryVariables = Exact<{
   categoryName: Scalars['String']['input'];
 }>;
 
 
-export type GetAdsByCategoryQuery = { __typename?: 'Query', getAdsByCategory: Array<{ __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: string, user: { __typename?: 'User', email: string }, category?: { __typename?: 'Category', id: number, name: string } | null, pictures: Array<{ __typename?: 'Picture', url: string }>, tags: Array<{ __typename?: 'Tag', id: number, name: string }> }> };
+export type GetAdsByCategoryQuery = { __typename?: 'Query', getAdsByCategory: Array<{ __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: any, user: { __typename?: 'User', email: string }, category?: { __typename?: 'Category', id: number, name: string } | null, pictures: Array<{ __typename?: 'Picture', url: string }>, tags: Array<{ __typename?: 'Tag', id: number, name: string }> }> };
 
 export type GetAllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -257,14 +277,14 @@ export type GetAllCategoryQuery = { __typename?: 'Query', getAllCategories: Arra
 export type GetAllAdsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: string, user: { __typename?: 'User', email: string }, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', id: number, name: string }> }> };
+export type GetAllAdsQuery = { __typename?: 'Query', getAllAds: Array<{ __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: any, user: { __typename?: 'User', email: string }, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', id: number, name: string }> }> };
 
 export type GetAdByIdQueryVariables = Exact<{
   getAdByIdId: Scalars['Float']['input'];
 }>;
 
 
-export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: string, user: { __typename?: 'User', email: string }, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', id: number, name: string }> } };
+export type GetAdByIdQuery = { __typename?: 'Query', getAdById: { __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: any, user: { __typename?: 'User', email: string }, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', id: number, name: string }> } };
 
 export type GetAllCategoriesAndTagsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -276,14 +296,12 @@ export type GetAdsByKeyWordQueryVariables = Exact<{
 }>;
 
 
-export type GetAdsByKeyWordQuery = { __typename?: 'Query', getAdsByKeyWord: Array<{ __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: string, user: { __typename?: 'User', email: string }, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', name: string }> }> };
+export type GetAdsByKeyWordQuery = { __typename?: 'Query', getAdsByKeyWord: Array<{ __typename?: 'Ad', id: number, title: string, description: string, price: number, location: string, createdAt: any, user: { __typename?: 'User', email: string }, pictures: Array<{ __typename?: 'Picture', url: string }>, category?: { __typename?: 'Category', name: string } | null, tags: Array<{ __typename?: 'Tag', name: string }> }> };
 
-export type LoginQueryVariables = Exact<{
-  data: UserInput;
-}>;
+export type GetUserInfoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LoginQuery = { __typename?: 'Query', login: string };
+export type GetUserInfoQuery = { __typename?: 'Query', getUserInfo: { __typename?: 'UserInfo', isLoggedIn: boolean, email?: string | null } };
 
 
 export const CreateNewAdDocument = gql`
@@ -294,7 +312,6 @@ export const CreateNewAdDocument = gql`
     description
     price
     location
-    createdAt
     pictures {
       url
     }
@@ -454,6 +471,67 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const LoginDocument = gql`
+    mutation Login($data: UserInput!) {
+  login(data: $data)
+}
+    `;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const GetAdsByCategoryDocument = gql`
     query getAdsByCategory($categoryName: String!) {
   getAdsByCategory(categoryName: $categoryName) {
@@ -769,41 +847,43 @@ export type GetAdsByKeyWordQueryHookResult = ReturnType<typeof useGetAdsByKeyWor
 export type GetAdsByKeyWordLazyQueryHookResult = ReturnType<typeof useGetAdsByKeyWordLazyQuery>;
 export type GetAdsByKeyWordSuspenseQueryHookResult = ReturnType<typeof useGetAdsByKeyWordSuspenseQuery>;
 export type GetAdsByKeyWordQueryResult = Apollo.QueryResult<GetAdsByKeyWordQuery, GetAdsByKeyWordQueryVariables>;
-export const LoginDocument = gql`
-    query Login($data: UserInput!) {
-  login(data: $data)
+export const GetUserInfoDocument = gql`
+    query GetUserInfo {
+  getUserInfo {
+    isLoggedIn
+    email
+  }
 }
     `;
 
 /**
- * __useLoginQuery__
+ * __useGetUserInfoQuery__
  *
- * To run a query within a React component, call `useLoginQuery` and pass it any options that fit your needs.
- * When your component renders, `useLoginQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetUserInfoQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserInfoQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useLoginQuery({
+ * const { data, loading, error } = useGetUserInfoQuery({
  *   variables: {
- *      data: // value for 'data'
  *   },
  * });
  */
-export function useLoginQuery(baseOptions: Apollo.QueryHookOptions<LoginQuery, LoginQueryVariables> & ({ variables: LoginQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+export function useGetUserInfoQuery(baseOptions?: Apollo.QueryHookOptions<GetUserInfoQuery, GetUserInfoQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+        return Apollo.useQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(GetUserInfoDocument, options);
       }
-export function useLoginLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+export function useGetUserInfoLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserInfoQuery, GetUserInfoQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+          return Apollo.useLazyQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(GetUserInfoDocument, options);
         }
-export function useLoginSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<LoginQuery, LoginQueryVariables>) {
+export function useGetUserInfoSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetUserInfoQuery, GetUserInfoQueryVariables>) {
           const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
-          return Apollo.useSuspenseQuery<LoginQuery, LoginQueryVariables>(LoginDocument, options);
+          return Apollo.useSuspenseQuery<GetUserInfoQuery, GetUserInfoQueryVariables>(GetUserInfoDocument, options);
         }
-export type LoginQueryHookResult = ReturnType<typeof useLoginQuery>;
-export type LoginLazyQueryHookResult = ReturnType<typeof useLoginLazyQuery>;
-export type LoginSuspenseQueryHookResult = ReturnType<typeof useLoginSuspenseQuery>;
-export type LoginQueryResult = Apollo.QueryResult<LoginQuery, LoginQueryVariables>;
+export type GetUserInfoQueryHookResult = ReturnType<typeof useGetUserInfoQuery>;
+export type GetUserInfoLazyQueryHookResult = ReturnType<typeof useGetUserInfoLazyQuery>;
+export type GetUserInfoSuspenseQueryHookResult = ReturnType<typeof useGetUserInfoSuspenseQuery>;
+export type GetUserInfoQueryResult = Apollo.QueryResult<GetUserInfoQuery, GetUserInfoQueryVariables>;

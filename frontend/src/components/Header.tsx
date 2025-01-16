@@ -1,10 +1,18 @@
+import {
+  useGetUserInfoQuery,
+  useLogoutMutation,
+} from "../generated/graphql-types";
+import { GET_USER_INFOS } from "../GraphQL/Query";
 import CategoryList from "./CategoryList";
 import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
-  const isLogged = localStorage.getItem("token") ? true : false;
-  console.log("isLogged", isLogged);
+  const userInfos = useGetUserInfoQuery();
+  const [logout] = useLogoutMutation({
+    refetchQueries: [{ query: GET_USER_INFOS }],
+  });
+
   return (
     <header className="header">
       <div className="main-menu">
@@ -49,7 +57,7 @@ const Header = () => {
             </svg>
           </button>
         </form>
-        {isLogged ? (
+        {userInfos.data?.getUserInfo.isLoggedIn ? (
           <>
             <Link to="/ad/new" className="button link-button">
               <span className="mobile-short-label">Publier</span>
@@ -58,8 +66,7 @@ const Header = () => {
             <button
               className="button link-button"
               onClick={() => {
-                localStorage.removeItem("token");
-                navigate("/");
+                logout();
               }}
             >
               Logout

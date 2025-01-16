@@ -21,10 +21,9 @@ const CreateOrUpdateAdForm = ({
     price: string;
     pictures: { url: string; __typename?: string }[];
     location: string;
-    createdAt: string;
     category: string;
     tags: string[];
-    user: { email: string; __typename?: string };
+    user?: { email: string; __typename?: string };
     __typename?: string;
   };
 
@@ -50,14 +49,13 @@ const CreateOrUpdateAdForm = ({
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     delete data.__typename;
-    delete data.user.__typename;
+    delete data.user;
     data.pictures = data.pictures.map((el) => ({
       url: el.url,
     }));
     const dataForBackend = {
       ...data,
       price: parseInt(data.price),
-      createdAt: data.createdAt + "T00:00:00.000Z",
       tags: data.tags ? data.tags.map((el) => ({ id: parseInt(el) })) : [],
     };
     console.log(data);
@@ -259,36 +257,6 @@ const CreateOrUpdateAdForm = ({
           <br />
           <>
             <label>
-              Date :
-              <br />
-              <input
-                type="date"
-                className="text-field"
-                {...register("createdAt", {
-                  required: "This field is required",
-                })}
-              />
-            </label>
-            <ErrorMessage
-              errors={errors}
-              name="createdAt"
-              render={({ messages }) =>
-                messages &&
-                Object.entries(messages).map(([type, message]) => {
-                  console.log(message);
-                  return (
-                    <Fragment key={type}>
-                      <br />
-                      <span className="error-message">{message}</span>
-                    </Fragment>
-                  );
-                })
-              }
-            />
-          </>
-          <br />
-          <>
-            <label>
               <br />
               Category :
               <br />
@@ -302,7 +270,7 @@ const CreateOrUpdateAdForm = ({
             </label>
             <ErrorMessage
               errors={errors}
-              name="createdAt"
+              name="category"
               render={({ messages }) =>
                 messages &&
                 Object.entries(messages).map(([type, message]) => {

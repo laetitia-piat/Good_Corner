@@ -8,7 +8,6 @@ export const CREATE_NEW_AD = gql`
       description
       price
       location
-      createdAt
       pictures {
         url
       }
@@ -39,5 +38,17 @@ export const DELETE_AD = gql`
 export const REGISTER = gql`
   mutation Register($data: UserInput!) {
     register(data: $data)
+  }
+`;
+
+export const LOGIN = gql`
+  mutation Login($data: UserInput!) {
+    login(data: $data)
+  }
+`;
+
+export const LOGOUT = gql`
+  mutation Logout {
+    logout
   }
 `;

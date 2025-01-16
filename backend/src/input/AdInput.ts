@@ -36,9 +36,6 @@ class AdInput implements Partial<Ad> {
   @Field()
   location: string;
 
-  @Field()
-  createdAt: string;
-
   @Field(() => [PictureInput], { nullable: true })
   pictures?: Picture[];
 

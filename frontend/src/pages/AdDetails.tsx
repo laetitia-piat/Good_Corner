@@ -1,11 +1,15 @@
 import { Link, useParams } from "react-router-dom";
 import Header from "../components/Header";
 import ButtonDelete from "../components/ButtonDelete";
-import { useGetAdByIdQuery } from "../generated/graphql-types";
+import {
+  useGetAdByIdQuery,
+  useGetUserInfoQuery,
+} from "../generated/graphql-types";
 import { useState } from "react";
 
 const AdDetails = () => {
   const { id }: any = useParams();
+  const userInfos = useGetUserInfoQuery();
   const { loading, error, data } = useGetAdByIdQuery({
     variables: { getAdByIdId: parseInt(id) },
   });
@@ -78,13 +82,23 @@ const AdDetails = () => {
                 </svg>
                 Envoyer un email
               </a>
-              <Link to={`update`} className="button button-primary link-button">
-                Modifier
-              </Link>
+              {userInfos.data?.getUserInfo.email ===
+              data?.getAdById.user.email ? (
+                <>
+                  <Link
+                    to={`update`}
+                    className="button button-primary link-button"
+                  >
+                    Modifier
+                  </Link>
+                  <ButtonDelete />
+                </>
+              ) : (
+                <></>
+              )}
             </div>
           </section>
         </div>
-        <ButtonDelete />
       </>
     );
   }

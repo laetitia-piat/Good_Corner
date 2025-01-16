@@ -126,8 +126,11 @@ export const GET_ADS_BY_KEYWORD = gql`
   }
 `;
 
-export const LOGIN = gql`
-  query Login($data: UserInput!) {
-    login(data: $data)
+export const GET_USER_INFOS = gql`
+  query GetUserInfo {
+    getUserInfo {
+      isLoggedIn
+      email
+    }
   }
 `;

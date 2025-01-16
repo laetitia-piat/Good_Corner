@@ -20,7 +20,6 @@ const UpdateAdPage = () => {
       <CreateOrUpdateAdForm
         defaultValues={{
           ...data.getAdById,
-          createdAt: data.getAdById.createdAt.slice(0, 10),
           category: data.getAdById?.category?.id,
           pictures: data.getAdById.pictures.map((picture: any) => ({
             url: picture.url,

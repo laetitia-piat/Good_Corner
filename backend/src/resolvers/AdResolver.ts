@@ -73,7 +73,6 @@ class AdResolver {
     return ads;
   }
 
-  @Authorized()
   @Mutation(() => Ad)
   async createNewAd(@Arg("data") newAdData: AdInput, @Ctx() context: any) {
     console.log("context of create new ad mutation", context);
@@ -88,6 +87,7 @@ class AdResolver {
     return result;
   }
 
+  //@Authorized()
   @Mutation(() => String)
   async updateAd(@Arg("data") updateAdData: UpdateAdInput) {
     let adToUpdate = await Ad.findOneByOrFail({ id: updateAdData.id });
@@ -99,6 +99,7 @@ class AdResolver {
     return "Ad has been updated";
   }
 
+  //@Authorized("user")
   @Mutation(() => String)
   async deleteAdById(@Arg("id") id: number) {
     const result = await Ad.delete(id);
