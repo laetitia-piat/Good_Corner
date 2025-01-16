@@ -14,6 +14,7 @@ import AdTagsFetch from "./components/AdTagsFetch";
 import SingleFileUploader from "./pages/TestFileUpload";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
+import ConfirmEmailPage from "./pages/ConfirmEmailPage";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
           <Route path="testimg" element={<SingleFileUploader />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
+          <Route path="confirm/:code?" element={<ConfirmEmailPage />} />
         </Route>
       </Routes>
       <ToastContainer />

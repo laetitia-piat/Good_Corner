@@ -1,6 +1,6 @@
 import AdInput from "../input/AdInput";
 import { Ad } from "../entities/ad";
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import UpdateAdInput from "../input/UpdateAdInput";
 import { Like } from "typeorm";
 import { User } from "../entities/user";
