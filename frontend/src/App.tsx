@@ -15,6 +15,8 @@ import SingleFileUploader from "./pages/TestFileUpload";
 import LoginPage from "./pages/Login";
 import RegisterPage from "./pages/Register";
 import ConfirmEmailPage from "./pages/ConfirmEmailPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 const App = () => {
   return (
@@ -34,6 +36,11 @@ const App = () => {
           <Route path="login" element={<LoginPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="confirm/:code?" element={<ConfirmEmailPage />} />
+          <Route path="forgotPassword" element={<ForgotPasswordPage />} />
+          <Route
+            path="changePassword/:code?"
+            element={<ChangePasswordPage />}
+          />
         </Route>
       </Routes>
       <ToastContainer />

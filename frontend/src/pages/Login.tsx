@@ -55,6 +55,9 @@ const LoginPage = () => {
         <a className="linkSubscribe" href="register">
           Pas encore inscrit?
         </a>
+        <a className="linkSubscribe" href="forgotPassword">
+          Mot de passe oublié?
+        </a>
       </form>
     </>
   );

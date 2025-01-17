@@ -52,9 +52,19 @@ export const LOGOUT = gql`
     logout
   }
 `;
-
 export const CONFIRM_EMAIL = gql`
   mutation ConfirmEmail($codeByUser: String!) {
     confirmEmail(codeByUser: $codeByUser)
+  }
+`;
+export const FORGOT_PASSWORD = gql`
+  mutation ForgotPassword($userEmail: String!) {
+    forgotPassword(userEmail: $userEmail)
+  }
+`;
+
+export const CHANGE_PASSWORD = gql`
+  mutation ChangePassword($password: String!, $code: String!) {
+    changePassword(password: $password, code: $code)
   }
 `;

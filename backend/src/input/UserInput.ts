@@ -9,3 +9,9 @@ export class UserInput implements Partial<User> {
   @Field()
   password: string;
 }
+
+@InputType()
+export class UserInputReset implements Partial<User> {
+  @Field()
+  email: string;
+}

@@ -35,9 +35,7 @@ export type Ad = {
 export type AdInput = {
   category?: InputMaybe<Scalars['ID']['input']>;
   description: Scalars['String']['input'];
-  email: Scalars['String']['input'];
   location: Scalars['String']['input'];
-  owner: Scalars['String']['input'];
   pictures?: InputMaybe<Array<PictureInput>>;
   price: Scalars['Float']['input'];
   tags?: InputMaybe<Array<TagInput>>;
@@ -57,18 +55,26 @@ export type CategoryInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  changePassword: Scalars['String']['output'];
   confirmEmail: Scalars['String']['output'];
   createNewAd: Ad;
   createNewCategory: Category;
   deleteAdById: Scalars['String']['output'];
   deleteCategory: Scalars['String']['output'];
   deleteTag: Scalars['String']['output'];
+  forgotPassword: Scalars['String']['output'];
   login: Scalars['String']['output'];
   logout: Scalars['String']['output'];
   register: Scalars['String']['output'];
   updateAd: Scalars['String']['output'];
   updateCategory: Scalars['String']['output'];
   updateTag: Scalars['String']['output'];
+};
+
+
+export type MutationChangePasswordArgs = {
+  code: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 
@@ -99,6 +105,11 @@ export type MutationDeleteCategoryArgs = {
 
 export type MutationDeleteTagArgs = {
   id: Scalars['Float']['input'];
+};
+
+
+export type MutationForgotPasswordArgs = {
+  userEmail: Scalars['String']['input'];
 };
 
 
@@ -277,6 +288,21 @@ export type ConfirmEmailMutationVariables = Exact<{
 
 
 export type ConfirmEmailMutation = { __typename?: 'Mutation', confirmEmail: string };
+
+export type ForgotPasswordMutationVariables = Exact<{
+  userEmail: Scalars['String']['input'];
+}>;
+
+
+export type ForgotPasswordMutation = { __typename?: 'Mutation', forgotPassword: string };
+
+export type ChangePasswordMutationVariables = Exact<{
+  password: Scalars['String']['input'];
+  code: Scalars['String']['input'];
+}>;
+
+
+export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: string };
 
 export type GetAdsByCategoryQueryVariables = Exact<{
   categoryName: Scalars['String']['input'];
@@ -579,6 +605,69 @@ export function useConfirmEmailMutation(baseOptions?: Apollo.MutationHookOptions
 export type ConfirmEmailMutationHookResult = ReturnType<typeof useConfirmEmailMutation>;
 export type ConfirmEmailMutationResult = Apollo.MutationResult<ConfirmEmailMutation>;
 export type ConfirmEmailMutationOptions = Apollo.BaseMutationOptions<ConfirmEmailMutation, ConfirmEmailMutationVariables>;
+export const ForgotPasswordDocument = gql`
+    mutation ForgotPassword($userEmail: String!) {
+  forgotPassword(userEmail: $userEmail)
+}
+    `;
+export type ForgotPasswordMutationFn = Apollo.MutationFunction<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
+
+/**
+ * __useForgotPasswordMutation__
+ *
+ * To run a mutation, you first call `useForgotPasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useForgotPasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [forgotPasswordMutation, { data, loading, error }] = useForgotPasswordMutation({
+ *   variables: {
+ *      userEmail: // value for 'userEmail'
+ *   },
+ * });
+ */
+export function useForgotPasswordMutation(baseOptions?: Apollo.MutationHookOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ForgotPasswordMutation, ForgotPasswordMutationVariables>(ForgotPasswordDocument, options);
+      }
+export type ForgotPasswordMutationHookResult = ReturnType<typeof useForgotPasswordMutation>;
+export type ForgotPasswordMutationResult = Apollo.MutationResult<ForgotPasswordMutation>;
+export type ForgotPasswordMutationOptions = Apollo.BaseMutationOptions<ForgotPasswordMutation, ForgotPasswordMutationVariables>;
+export const ChangePasswordDocument = gql`
+    mutation ChangePassword($password: String!, $code: String!) {
+  changePassword(password: $password, code: $code)
+}
+    `;
+export type ChangePasswordMutationFn = Apollo.MutationFunction<ChangePasswordMutation, ChangePasswordMutationVariables>;
+
+/**
+ * __useChangePasswordMutation__
+ *
+ * To run a mutation, you first call `useChangePasswordMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangePasswordMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changePasswordMutation, { data, loading, error }] = useChangePasswordMutation({
+ *   variables: {
+ *      password: // value for 'password'
+ *      code: // value for 'code'
+ *   },
+ * });
+ */
+export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptions<ChangePasswordMutation, ChangePasswordMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<ChangePasswordMutation, ChangePasswordMutationVariables>(ChangePasswordDocument, options);
+      }
+export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
+export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
+export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
 export const GetAdsByCategoryDocument = gql`
     query getAdsByCategory($categoryName: String!) {
   getAdsByCategory(categoryName: $categoryName) {
