@@ -8,7 +8,7 @@ export type CategoryProps = {
 
 const AllCategory = ({ name, link }: CategoryProps) => (
   <>
-    <Link to={link} className="category-navigation-link">
+    <Link to={link} className="category-link">
       {name}
     </Link>
   </>

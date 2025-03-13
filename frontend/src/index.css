@@ -16,6 +16,10 @@ h1 {
   margin: 0;
 }
 
+h1 a .desktop-long-label {
+  font-size: 25px;
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -32,13 +36,14 @@ h1 {
   align-items: center;
   gap: 10px;
   color: #ffa41b;
+  margin-bottom: 10px;
 }
 
 .categories-navigation {
   font-size: 12px;
   font-weight: bold;
   color: #666;
-  padding: 16px 10px 6px;
+  padding: 20px 10px 6px;
   white-space: nowrap;
   overflow-x: scroll;
   display: flex;
@@ -49,7 +54,13 @@ h1 {
   text-decoration: unset;
   color: inherit;
 }
-
+.category-link {
+  border: 2px solid #ffa41b;
+  border-radius: 8px;
+  padding: 2px;
+  text-decoration: unset;
+  color: inherit;
+}
 .button {
   min-width: 40px;
   height: 40px;
@@ -179,7 +190,7 @@ h1 {
 .main-content {
   max-width: 1200px;
   padding: 0 16px;
-  margin: 120px auto 48px;
+  margin: 180px auto 48px;
 }
 
 .recent-ads {
