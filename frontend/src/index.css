@@ -177,7 +177,7 @@ h1 {
 }
 
 .main-content {
-  max-width: 832px;
+  max-width: 1200px;
   padding: 0 16px;
   margin: 120px auto 48px;
 }
@@ -222,8 +222,10 @@ h1 {
 }
 
 .ad-card-title {
-  font-size: 0.9em;
+  font-size: 1em;
   font-weight: bold;
+  text-align: center;
+  padding-top: 5px;
 }
 
 .ad-card-price {
